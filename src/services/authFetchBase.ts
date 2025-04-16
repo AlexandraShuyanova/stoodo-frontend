@@ -8,7 +8,7 @@ import { Mutex } from 'async-mutex';
 import { setCredentials } from '../store/authSlice';
 import {RootState} from "../store/store";
 
-const baseUrl = 'http://localhost:3001/api/v1/';
+const baseUrl = '/api/v1/';
 
 // Create a new mutex
 const mutex = new Mutex();

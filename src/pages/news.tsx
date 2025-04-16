@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import {Home} from '@/components/screens/Home/Home'
+import {News} from '@/components/screens/News/News'
 import {Layout} from '@/components/Layout/Layout'
 import React from "react";
 
@@ -8,10 +8,10 @@ const Index: NextPage = () => {
     return (
         <>
             <Head>
-                <title>Stoodo - Home</title>
+                <title>Stoodo - News</title>
             </Head>
             <Layout>
-                <Home/>
+                <News/>
             </Layout>
         </>
     )

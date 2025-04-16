@@ -2,6 +2,7 @@ import {FC} from 'react'
 import classNames from 'classnames'
 import styles from "./SideBar.module.scss";
 import * as React from 'react';
+import Link from 'next/link';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -38,6 +39,7 @@ export const SideBar: FC<SideBarProps> = ({className, visible, setVisible}) => {
     ]
 
     const rootClasses = [styles.sidebar, className]
+
     if(!visible)
     {
         rootClasses.push(styles.inactive)
@@ -63,19 +65,21 @@ export const SideBar: FC<SideBarProps> = ({className, visible, setVisible}) => {
                 </ul>*/
             }
             <List className={styles.list}>
-                {['Home', 'Favourites', 'Popular', 'News', 'Activity', 'Events'].map((text, index) => (
+                {['Home', 'Favourites', 'Popular', 'News', 'Activities', 'Events'].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index === 0 && <HomeOutlinedIcon className={styles.icon}/> }
-                                {index === 1 && <FavoriteBorderOutlinedIcon className={styles.icon}/> }
-                                {index === 2 && <LocalFireDepartmentOutlinedIcon className={styles.icon}/> }
-                                {index === 3 && <ArticleOutlinedIcon className={styles.icon}/> }
-                                {index === 4 && <HikingOutlinedIcon className={styles.icon}/> }
-                                {index === 5 && <CalendarMonthOutlinedIcon className={styles.icon}/> }
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
+                        <Link href={text === 'Home' ? '/' : `/${text.toLowerCase()}`} passHref>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    {index === 0 && <HomeOutlinedIcon className={styles.icon}/> }
+                                    {index === 1 && <FavoriteBorderOutlinedIcon className={styles.icon}/> }
+                                    {index === 2 && <LocalFireDepartmentOutlinedIcon className={styles.icon}/> }
+                                    {index === 3 && <ArticleOutlinedIcon className={styles.icon}/> }
+                                    {index === 4 && <HikingOutlinedIcon className={styles.icon}/> }
+                                    {index === 5 && <CalendarMonthOutlinedIcon className={styles.icon}/> }
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItemButton>
+                        </Link>
                     </ListItem>
                 ))}
             </List>

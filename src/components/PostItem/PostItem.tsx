@@ -91,7 +91,7 @@ export const PostItem: FC<PostItemProps> = ({item}) => {
             />
 
             <div className={styles.cardMainContent}>
-                <Link href={`/post/${slug}`}>
+                <Link href={`/posts/${slug}`}>
                     <CardMedia
                         className={styles.postImage}
                         component="img"

@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: '/api/v1/:path*',
-        destination: 'http://188.166.114.84/api/v1/:path*' // Proxy to Backend
+        destination: 'http://192.168.3.115:8080/api/v1/:path*' // Proxy to Backend
       }
     ]
   }

@@ -8,7 +8,7 @@ import {IPost} from "@/types/IPost";
 export const PostList = () => {
     const [page, setPage] = useState(0);
     const [postList, setPostList] = useState<IPost[]>([]);
-    const {data, isFetching} = useGetListNotPublishedQuery(page);
+    const {data, isFetching} = useGetListPublishedQuery(page);
 
     useEffect(() => {
         if (data === undefined || data.content.length === 0)
