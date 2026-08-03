@@ -50,7 +50,7 @@ export const AuthForm = () => {
                 name='email'
                 onChange={handleChange}
                 type='text'
-                placeholder='Enter email'
+                placeholder='Enter EMAIL'
             />
             <TextField
                 className={styles.input}
