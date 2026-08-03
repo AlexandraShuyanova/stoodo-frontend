@@ -1,4 +1,4 @@
-import styles from "./AuthForm.module.scss"
+import styles from "./RegisterForm.module.scss"
 import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
 import React, {useState} from "react";
