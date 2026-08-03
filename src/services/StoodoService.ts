@@ -66,7 +66,7 @@ export const stoodoAPI = createApi({
         }),
         login: build.mutation<UserResponse, LoginRequest>({
             query: (credentials) => ({
-                url: 'auth/authenticate',
+                url: 'auth/login',
                 method: 'POST',
                 body: credentials,
             }),
