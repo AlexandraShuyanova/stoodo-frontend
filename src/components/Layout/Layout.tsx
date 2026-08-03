@@ -6,6 +6,7 @@ import styles from "./Layout.module.scss";
 import {ModalWindow} from "@/components/UI/ModalWindow/ModalWindow";
 import {AuthForm} from "@/components/Header/components/AuthForm/AuthForm";
 import {PostForm} from "@/components/Header/components/PostForm/PostForm";
+import {RegisterForm} from "@/components/Header/components/RegisterForm/RegisterForm";
 
 
 export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
@@ -13,6 +14,7 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
     const[loginModal, setLoginModal] = useState(false)
     const[createPostModal, setCreatePostModal] = useState(false)
     const[isLeftBarVisible, setLeftBarVisibility] = useState(true)
+    const [mode, setMode] = useState<"login" | "register">("login");
     const updateLoginModal = (value:boolean) =>
     {
         setLoginModal(value);
@@ -28,10 +30,15 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
 
     return (
         <div className={styles.container}>
-            <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal}>
-                <AuthForm/>
+            <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal} onModeChange={setMode}>
+                {mode === "login"
+                    ?
+                    <AuthForm/>
+                    :
+                    <RegisterForm/>
+                }
             </ModalWindow>
-            <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>
+            <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal} onModeChange={setMode}>
                 <PostForm/>
             </ModalWindow>
             <Header updateLoginModal={updateLoginModal} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>

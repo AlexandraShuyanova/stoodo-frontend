@@ -15,6 +15,15 @@ export interface LoginRequest {
     saveSession: boolean
 }
 
+export interface RegisterRequest {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    password: string;
+    saveSession: boolean
+}
+
 export interface CreatePostRequest {
     title: string,
     slug: string,
@@ -64,6 +73,13 @@ export const stoodoAPI = createApi({
         getAuthUser: build.query<IUser, any>({
             query: () => `auth/user_info`
         }),
+        register: build.mutation<UserResponse, RegisterRequest>({
+            query: (credentials) => ({
+                url: 'auth/register',
+                method: 'POST',
+                body: credentials,
+            }),
+        }),
         login: build.mutation<UserResponse, LoginRequest>({
             query: (credentials) => ({
                 url: 'auth/login',
@@ -107,7 +123,7 @@ export const stoodoAPI = createApi({
 export const { useGetListPublishedQuery, useGetListNotPublishedQuery,
     useGetUserPostInteractionQuery, useGetTopicsListQuery,
     useGetPostContentByIdQuery, useGetPostStatByIdQuery,
-    useGetPostBySlugQuery, useLoginMutation,
+    useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
     useProtectedMutation, useCreatePostMutation, useCreatePostContentMutation,
     useUploadImageMutation, useLikePostMutation,  useGetAuthUserQuery,
     useGetPostContentBySlugQuery,

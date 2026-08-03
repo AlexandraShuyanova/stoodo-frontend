@@ -2,18 +2,24 @@ import styles from "./AuthForm.module.scss"
 import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
 import React, {useState} from "react";
-import {LoginRequest, useLoginMutation} from "../../../../services/StoodoService";
+import {
+    RegisterRequest,
+    useRegisterMutation
+} from "../../../../services/StoodoService";
 import { useDispatch } from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
 
-export const AuthForm = () => {
+export const RegisterForm = () => {
 
     const dispatch = useDispatch()
 
-    const [login, { isLoading }] = useLoginMutation()
+    const [register, { isLoading }] = useRegisterMutation()
 
-    const [formState, setFormState] = React.useState<LoginRequest>({
+    const [formState, setFormState] = React.useState<RegisterRequest>({
+        firstName: '',
+        lastName: '',
         email: '',
+        username: '',
         password: '',
         saveSession: false,
     })
@@ -27,13 +33,13 @@ export const AuthForm = () => {
             setFormState((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleLogin = async() => {
+    const handleRegister = async() => {
         if (isLoading) {
             return
         }
 
         try {
-            const user = await login(formState).unwrap()
+            const user = await register(formState).unwrap()
             dispatch(setCredentials(user))
             window.location.reload()
 
@@ -43,14 +49,35 @@ export const AuthForm = () => {
     }
 
     return (
-        <form className={styles.form} onSubmit={handleLogin} action="javascript:void(0);">
+        <form className={styles.form} onSubmit={handleRegister} action="javascript:void(0);">
             <h1>STOODO</h1>
+            <TextField
+                className={styles.input}
+                name='firstName'
+                onChange={handleChange}
+                type='text'
+                placeholder='Enter first name'
+            />
+            <TextField
+                className={styles.input}
+                name='secondName'
+                onChange={handleChange}
+                type='text'
+                placeholder='Enter second name'
+            />
             <TextField
                 className={styles.input}
                 name='email'
                 onChange={handleChange}
                 type='text'
                 placeholder='Enter email'
+            />
+            <TextField
+                className={styles.input}
+                name='username'
+                onChange={handleChange}
+                type='text'
+                placeholder='Enter username'
             />
             <TextField
                 className={styles.input}
@@ -68,8 +95,8 @@ export const AuthForm = () => {
                 />
                 <label htmlFor="saveSession">Save session</label>
             </div>
-            <Button className={styles.btn} onClick={handleLogin}>
-                Log In
+            <Button className={styles.btn} onClick={handleRegister}>
+                Sign Up
             </Button>
         </form>
     )}
