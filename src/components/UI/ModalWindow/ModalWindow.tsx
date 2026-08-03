@@ -35,19 +35,20 @@ export const ModalWindow: FC<ModalWindowProps> = ({children, visible,
                 <Button className={styles.closeBtn} onClick={() => setVisible(false)}>
                     <img width="24" height="24"/>
                 </Button>
+                <p>TEST</p>
                 {children}
                 {mode === "register" ?
-                    <>
-                        <div>Don`t have an account?</div>
-                        <span onClick={() => changeMode("register")}>
-                            Sign Up
-                        </span>
-                    </>
-                :
                     <>
                         <div>Have an account?</div>
                         <span onClick={() => changeMode("login")}>
                             Log In
+                        </span>
+                    </>
+                :
+                    <>
+                        <div>Don`t have an account?</div>
+                        <span onClick={() => changeMode("register")}>
+                            Sign Up
                         </span>
                 </>
                 }
