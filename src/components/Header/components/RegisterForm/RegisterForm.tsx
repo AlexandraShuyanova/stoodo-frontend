@@ -101,8 +101,8 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
             <div>
                 <div>Have an account?</div>
                 <span onClick={() => onModeChange("login")}>
-                            Log In
-                        </span>
+                    Log In
+                </span>
             </div>
         </form>
     )}
