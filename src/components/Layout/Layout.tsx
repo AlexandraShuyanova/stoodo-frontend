@@ -30,15 +30,15 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
 
     return (
         <div className={styles.container}>
-            <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal} onModeChange={setMode}>
+            <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal}>
                 {mode === "login"
                     ?
-                    <AuthForm/>
+                    <AuthForm onModeChange={setMode}/>
                     :
-                    <RegisterForm/>
+                    <RegisterForm onModeChange={setMode}/>
                 }
             </ModalWindow>
-            <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal} onModeChange={setMode}>
+            <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>
                 <PostForm/>
             </ModalWindow>
             <Header updateLoginModal={updateLoginModal} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>

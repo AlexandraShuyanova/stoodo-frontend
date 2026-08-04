@@ -9,7 +9,7 @@ import {
 import { useDispatch } from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | "register") => void }) => {
 
     const dispatch = useDispatch()
 
@@ -98,5 +98,11 @@ export const RegisterForm = () => {
             <Button className={styles.btn} onClick={handleRegister}>
                 Sign Up
             </Button>
+            <div>
+                <div>Have an account?</div>
+                <span onClick={() => onModeChange("login")}>
+                            Log In
+                        </span>
+            </div>
         </form>
     )}

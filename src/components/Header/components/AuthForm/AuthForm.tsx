@@ -3,14 +3,15 @@ import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
 import React, {useState} from "react";
 import {LoginRequest, useLoginMutation} from "../../../../services/StoodoService";
-import { useDispatch } from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
 
-export const AuthForm = () => {
+
+export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "register") => void }) => {
 
     const dispatch = useDispatch()
 
-    const [login, { isLoading }] = useLoginMutation()
+    const [login, {isLoading}] = useLoginMutation()
 
     const [formState, setFormState] = React.useState<LoginRequest>({
         email: '',
@@ -19,15 +20,15 @@ export const AuthForm = () => {
     })
 
     const handleChange = ({
-                              target: { name, value, checked=false },
+                              target: {name, value, checked = false},
                           }: React.ChangeEvent<HTMLInputElement>) => {
-        if (name=="saveSession")
-            setFormState((prev) => ({ ...prev, [name]: checked }))
+        if (name == "saveSession")
+            setFormState((prev) => ({...prev, [name]: checked}))
         else
-            setFormState((prev) => ({ ...prev, [name]: value }))
+            setFormState((prev) => ({...prev, [name]: value}))
     }
 
-    const handleLogin = async() => {
+    const handleLogin = async () => {
         if (isLoading) {
             return
         }
@@ -38,7 +39,7 @@ export const AuthForm = () => {
             window.location.reload()
 
         } catch (err) {
-            dispatch(setCredentials({access_token:null}))
+            dispatch(setCredentials({access_token: null}))
         }
     }
 
@@ -71,5 +72,12 @@ export const AuthForm = () => {
             <Button className={styles.btn} onClick={handleLogin}>
                 Log In
             </Button>
+            <div>
+                <div>Don`t have an account?</div>
+                <span onClick={() => onModeChange("register")}>
+                    Sign Up
+                </span>
+            </div>
         </form>
-    )}
+    )
+}
