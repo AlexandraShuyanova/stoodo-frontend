@@ -60,10 +60,10 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
             />
             <TextField
                 className={styles.input}
-                name='secondName'
+                name='lastName'
                 onChange={handleChange}
                 type='text'
-                placeholder='Enter second name'
+                placeholder='Enter last name'
             />
             <TextField
                 className={styles.input}
@@ -88,9 +88,9 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
             />
             <div className={styles.checkbox}>
                 <input
-                    type="checkbox"
-                    id="saveSession"
-                    name="saveSession"
+                    type='checkbox'
+                    id='saveSession'
+                    name='saveSession'
                     onChange={handleChange}
                 />
                 <label htmlFor="saveSession">Save session</label>
