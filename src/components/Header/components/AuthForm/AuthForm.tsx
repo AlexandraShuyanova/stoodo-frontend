@@ -37,8 +37,8 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
 
         try {
             const user = await login(formState).unwrap()
+            console.log(user);
             dispatch(setCredentials(user))
-            window.location.reload()
 
         } catch (err) {
             dispatch(setCredentials({access_token: null}))
@@ -46,7 +46,7 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
     }
 
     return (
-        <form className={styles.form} onSubmit={handleLogin} action="javascript:void(0);">
+        <form className={styles.form} onSubmit={handleLogin}>
             <h1>STOODO</h1>
             <TextField
                 className={styles.input}

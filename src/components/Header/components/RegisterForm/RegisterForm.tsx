@@ -51,7 +51,7 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
     }
 
     return (
-        <form className={styles.form} onSubmit={handleRegister} action="javascript:void(0);">
+        <form className={styles.form} onSubmit={handleRegister}>
             <h1>STOODO</h1>
             <TextField
                 className={styles.input}
