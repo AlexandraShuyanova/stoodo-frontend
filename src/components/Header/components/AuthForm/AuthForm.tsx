@@ -28,7 +28,9 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
             setFormState((prev) => ({...prev, [name]: value}))
     }
 
-    const handleLogin = async () => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (isLoading) {
             return
         }
@@ -69,7 +71,7 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
                 />
                 <label htmlFor="saveSession">Save session</label>
             </div>
-            <Button className={styles.btn} onClick={handleLogin}>
+            <Button className={styles.btn} type="submit">
                 Log In
             </Button>
             <div>

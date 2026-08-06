@@ -33,7 +33,9 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
             setFormState((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleRegister = async() => {
+    const handleRegister = async(e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (isLoading) {
             return
         }
@@ -95,7 +97,7 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
                 />
                 <label htmlFor="saveSession">Save session</label>
             </div>
-            <Button className={styles.btn} onClick={handleRegister}>
+            <Button className={styles.btn} type="submit">
                 Sign Up
             </Button>
             <div>
