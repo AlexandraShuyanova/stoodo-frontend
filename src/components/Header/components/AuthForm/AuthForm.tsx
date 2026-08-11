@@ -1,7 +1,7 @@
 import styles from "./AuthForm.module.scss"
 import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
-import React, {useState} from "react";
+import React from "react";
 import {LoginRequest, useLoginMutation} from "../../../../services/StoodoService";
 import {useDispatch} from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
@@ -54,21 +54,26 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
 
     return (
         <form className={styles.form} onSubmit={handleLogin}>
-            <h1>STOODO</h1>
-            <TextField
-                className={styles.input}
-                name='email'
-                onChange={handleChange}
-                type='text'
-                placeholder='Enter email'
-            />
-            <TextField
-                className={styles.input}
-                name='password'
-                onChange={handleChange}
-                type='password'
-                placeholder='Enter password'
-            />
+            <div className={styles.heading}>
+                <h1>Welcome back</h1>
+                <p>Sign in to continue to Stoodo.</p>
+            </div>
+            <div className={styles.fields}>
+                <TextField
+                    className={styles.input}
+                    name="email"
+                    onChange={handleChange}
+                    type="email"
+                    placeholder="Enter email"
+                />
+                <TextField
+                    className={styles.input}
+                    name="password"
+                    onChange={handleChange}
+                    type="password"
+                    placeholder="Enter password"
+                />
+            </div>
             <div className={styles.checkbox}>
                 <input
                     type="checkbox"
@@ -76,17 +81,15 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
                     name="saveSession"
                     onChange={handleChange}
                 />
-                <label htmlFor="saveSession">Save session</label>
+                <label htmlFor="saveSession">Keep me signed in</label>
             </div>
-            <Button className={styles.btn} type="submit">
-                Log In
+            <Button className={styles.btn} type="submit" disabled={isLoading}>
+                {isLoading ? "Signing in..." : "Sign in"}
             </Button>
-            <div>
-                <div>Don`t have an account?</div>
-                <span onClick={() => onModeChange("register")}>
-                    Sign Up
-                </span>
-            </div>
+            <p className={styles.switchMode}>
+                No account?{" "}
+                <button type="button" onClick={() => onModeChange("register")}>Create one</button>
+            </p>
         </form>
     )
 }

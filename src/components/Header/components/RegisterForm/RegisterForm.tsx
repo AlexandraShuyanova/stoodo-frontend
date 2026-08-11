@@ -1,7 +1,7 @@
 import styles from "./RegisterForm.module.scss"
 import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
-import React, {useState} from "react";
+import React from "react";
 import {RegisterRequest, useRegisterMutation} from "../../../../services/StoodoService";
 import { useDispatch } from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
@@ -57,42 +57,22 @@ export const RegisterForm = ({ onModeChange, onSuccess }: RegisterFormProps) => 
 
     return (
         <form className={styles.form} onSubmit={handleRegister}>
-            <h1>STOODO</h1>
-            <TextField
-                className={styles.input}
-                name='firstName'
-                onChange={handleChange}
-                type='text'
-                placeholder='Enter first name'
-            />
-            <TextField
-                className={styles.input}
-                name='lastName'
-                onChange={handleChange}
-                type='text'
-                placeholder='Enter last name'
-            />
-            <TextField
-                className={styles.input}
-                name='email'
-                onChange={handleChange}
-                type='text'
-                placeholder='Enter email'
-            />
-            <TextField
-                className={styles.input}
-                name='username'
-                onChange={handleChange}
-                type='text'
-                placeholder='Enter username'
-            />
-            <TextField
-                className={styles.input}
-                name='password'
-                onChange={handleChange}
-                type='password'
-                placeholder='Enter password'
-            />
+            <div className={styles.heading}>
+                <h1>Create your account</h1>
+                <p>Join Stoodo and become part of the student community.</p>
+            </div>
+            <div className={styles.fields}>
+                <TextField className={styles.input} name="firstName" onChange={handleChange}
+                           type="text" placeholder="Enter first name" />
+                <TextField className={styles.input} name="lastName" onChange={handleChange}
+                           type="text" placeholder="Enter last name" />
+                <TextField className={styles.input} name="email" onChange={handleChange}
+                           type="email" placeholder="Enter email" />
+                <TextField className={styles.input} name="username" onChange={handleChange}
+                           type="text" placeholder="Enter username" />
+                <TextField className={styles.input} name="password" onChange={handleChange}
+                           type="password" placeholder="Enter password" />
+            </div>
             <div className={styles.checkbox}>
                 <input
                     type='checkbox'
@@ -100,16 +80,13 @@ export const RegisterForm = ({ onModeChange, onSuccess }: RegisterFormProps) => 
                     name='saveSession'
                     onChange={handleChange}
                 />
-                <label htmlFor="saveSession">Save session</label>
+                <label htmlFor="saveSession">Keep me signed in</label>
             </div>
-            <Button className={styles.btn} type="submit">
-                Sign Up
+            <Button className={styles.btn} type="submit" disabled={isLoading}>
+                {isLoading ? "Creating account..." : "Sign up"}
             </Button>
-            <div>
-                <div>Have an account?</div>
-                <span onClick={() => onModeChange("login")}>
-                    Log In
-                </span>
-            </div>
+            <p className={styles.switchMode}>Already have an account?{" "}
+                <button type="button" onClick={() => onModeChange("login")}>Sign in</button>
+            </p>
         </form>
     )}
