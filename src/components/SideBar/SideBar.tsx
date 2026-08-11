@@ -45,12 +45,6 @@ export const SideBar: FC<SideBarProps> = ({className, visible, setVisible}) => {
         rootClasses.push(styles.inactive)
     }
 
-    const drawer = (
-        <div>
-
-        </div>
-    );
-
     return (
         <div className={classNames(rootClasses)}>
             {/*
@@ -70,12 +64,12 @@ export const SideBar: FC<SideBarProps> = ({className, visible, setVisible}) => {
                         <Link href={text === 'Home' ? '/' : `/${text.toLowerCase()}`} passHref>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    {index === 0 && <HomeOutlinedIcon className={styles.icon}/> }
-                                    {index === 1 && <FavoriteBorderOutlinedIcon className={styles.icon}/> }
-                                    {index === 2 && <LocalFireDepartmentOutlinedIcon className={styles.icon}/> }
-                                    {index === 3 && <ArticleOutlinedIcon className={styles.icon}/> }
-                                    {index === 4 && <HikingOutlinedIcon className={styles.icon}/> }
-                                    {index === 5 && <CalendarMonthOutlinedIcon className={styles.icon}/> }
+                                    {index === 0 && <HomeOutlinedIcon/> }
+                                    {index === 1 && <FavoriteBorderOutlinedIcon/> }
+                                    {index === 2 && <LocalFireDepartmentOutlinedIcon/> }
+                                    {index === 3 && <ArticleOutlinedIcon/> }
+                                    {index === 4 && <HikingOutlinedIcon/> }
+                                    {index === 5 && <CalendarMonthOutlinedIcon/> }
                                 </ListItemIcon>
                                 <ListItemText primary={text} />
                             </ListItemButton>

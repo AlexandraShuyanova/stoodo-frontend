@@ -30,49 +30,47 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
 
     return (
         <header className={styles.header}>
-            <div className={styles.container}>
-                <div className={styles.sectionLeft}>
-                    <Button className={styles.burger} onClick={() => {setLeftSideBar(!leftSideBar); updateLeftSideBar(!leftSideBar)}}>
-                        <MenuIcon/>
-                    </Button>
-                    <Link className={styles.link} href='/'>
-                        STOODO
-                    </Link>
-                </div>
-                <div className={styles.sectionCenter}>
-                    <Search />
-                    <Button className={styles.createBtn} onClick={() => updateCreatePostModal(true)}>
-                        <img src={"/images/plus-light.svg"} width="20" height="20"/>
-                        Create
-                    </Button>
-                </div>
-                <div className={styles.sectionRight}>
-                    <Button className={styles.notificationsBtn}>
-                        <img width="28" height="28"/>
-                    </Button>
-                    {isAuth ?
-                        <div className={styles.profile}>
-                            <Button className={styles.personBtn}
-                                    onClick={() => setIsMenuOpen(prev => !prev)}
-                            >
-                                <p>{authUser?.username}</p>
-                            </Button>
-                            {isMenuOpen && (
-                                <div className={styles.menu}>
-                                    <Button>Profile</Button>
-                                    <Button>Settings</Button>
-                                    <Button onClick={handleLogout}>Log Out</Button>
-                                </div>
-                            )}
-                        </div>
-
-                    :
-                        <Button className={styles.personBtn} onClick={() => updateLoginModal(true)}>
-                            <img width="28" height="28"/>
-                            <p>Log In</p>
+            <div className={styles.sectionLeft}>
+                <Button className={styles.burger} onClick={() => {setLeftSideBar(!leftSideBar); updateLeftSideBar(!leftSideBar)}}>
+                    <MenuIcon/>
+                </Button>
+                <Link className={styles.link} href='/'>
+                    STOODO
+                </Link>
+            </div>
+            <div className={styles.sectionCenter}>
+                <Search />
+            </div>
+            <div className={styles.sectionRight}>
+                <Button className={styles.createBtn} onClick={() => updateCreatePostModal(true)}>
+                    <img src={"/images/plus-light.svg"} width="20" height="20"/>
+                    Create
+                </Button>
+                <Button className={styles.notificationsBtn}>
+                    <img width="28" height="28"/>
+                </Button>
+                {isAuth ?
+                    <div className={styles.profile}>
+                        <Button className={styles.personBtn}
+                                onClick={() => setIsMenuOpen(prev => !prev)}
+                        >
+                            <p>{authUser?.username}</p>
                         </Button>
-                    }
-                </div>
+                        {isMenuOpen && (
+                            <div className={styles.menu}>
+                                <Button>Profile</Button>
+                                <Button>Settings</Button>
+                                <Button onClick={handleLogout}>Log Out</Button>
+                            </div>
+                        )}
+                    </div>
+
+                :
+                    <Button className={styles.personBtn} onClick={() => updateLoginModal(true)}>
+                        <img width="28" height="28"/>
+                        <p>Log In</p>
+                    </Button>
+                }
             </div>
         </header>
     );

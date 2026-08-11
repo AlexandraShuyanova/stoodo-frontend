@@ -1,3 +1,10 @@
+:root {
+  --primary-color: #e55c78;
+  --primary-hover-color: #d94f6c;
+  --white-color: #FFFFFF;
+  --text-color: #000000;
+  --border-color: #F2F2F2;
+}
 @font-face {
   font-family: "My Font";
   src: url('/fonts/myfont.woff2') format("woff2");
@@ -21,7 +28,7 @@ body {
   margin: 0;
   min-width: 360px;
   min-height: 100%;
-  background-color: #f2f2f2;
+  background: #fafafa;
 }
 
 .ck-editor .ck-editor__main .ck-content {

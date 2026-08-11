@@ -45,7 +45,7 @@
   transition: border-color .15s ease, box-shadow .15s ease;
 
   &:focus-within {
-    border-color: #e55c78;
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(229, 92, 120, .12);
   }
 
@@ -73,7 +73,7 @@
     width: 16px;
     height: 16px;
     margin: 0 10px 0 0;
-    accent-color: #e55c78;
+    accent-color: var(--primary-color);
   }
 }
 
@@ -81,13 +81,13 @@
   width: 100%;
   min-height: 44px;
   padding: 10px 20px;
-  border: 1px solid #e55c78;
+  border: 1px solid var(--primary-color);
   border-radius: 6px;
-  background: #e55c78;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--white-color);
   transition: background-color .15s ease;
 
-  &:hover:not(:disabled) { background: #d94f6c; border-color: #d94f6c; }
+  &:hover:not(:disabled) { background: var(--primary-hover-color); border-color: var(--primary-hover-color); }
   &:disabled { cursor: wait; opacity: .6; }
 }
 
@@ -101,7 +101,7 @@
     border: 0;
     border-bottom: 1px solid currentColor;
     background: transparent;
-    color: #d94f6c;
+    color: var(--primary-hover-color);
     font: inherit;
     cursor: pointer;
   }

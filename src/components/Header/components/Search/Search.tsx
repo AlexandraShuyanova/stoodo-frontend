@@ -1,15 +1,11 @@
 import styles from './Search.module.scss';
-import {TextField} from '@/components/UI/TextField/TextField';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
-export const Search = ({...props}) => {
+export const Search = () => {
     return (
-        <>
-            <form className={styles.form}>
-                <TextField
-                    className={styles.search}
-                    placeholder='Search'
-                />
-            </form>
-        </>
+        <label className={styles.search}>
+            <SearchOutlinedIcon className={styles.icon}/>
+            <input type="search" placeholder="Search Stoodo..." aria-label="Search Stoodo"/>
+        </label>
     )
 }

@@ -1,8 +1,10 @@
 .sidebar {
     display: block;
+    width: 250px;
     position: sticky;
     height: calc(100vh - 60px);;
     top: 60px;
+    border-right: 1px solid var(--border-color);
 }
 
 .sidebar.inactive{
@@ -10,15 +12,44 @@
 }
 
 .list{
-  padding-left: 8px;
-  margin-left: 9px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  a {
+    display: block;
+    width: 100%;
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: var(--text-color);
+  }
+
+  :global(.MuiListItemButton-root) {
+    min-height: 44px;
+    border-radius: 8px;
+  }
+
+  :global(.MuiListItemButton-root:hover) {
+    background: #fdeff2;
+    color: var(--primary-hover-color);
+
+    :global(.MuiListItemIcon-root) {
+      color: var(--primary-hover-color);
+    }
+  }
+
+  :global(.MuiListItemIcon-root) {
+    min-width: 42px;
+    color: var(--text-color);
+    font-size: 22px;
+  }
+
+  :global(.MuiListItemText-primary) {
+    font-family: inherit;
+    font-size: 16px;
+  }
 }
 
-.item {
-  height: fit-content;
-  width: fit-content;
-}
 
-.icon{
-  font-size: 28px;
-}
