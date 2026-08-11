@@ -7,7 +7,13 @@ import {useDispatch} from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
 
 
-export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "register") => void }) => {
+interface AuthFormProps
+{
+    onModeChange: (mode: "login" | "register") => void;
+    onSuccess: () => void;
+
+}
+export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
 
     const dispatch = useDispatch()
 
@@ -39,6 +45,7 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
             const user = await login(formState).unwrap()
             console.log(user);
             dispatch(setCredentials(user))
+            onSuccess();
 
         } catch (err) {
             dispatch(setCredentials({access_token: null}))
@@ -53,7 +60,7 @@ export const AuthForm = ({ onModeChange }: { onModeChange: (mode: "login" | "reg
                 name='email'
                 onChange={handleChange}
                 type='text'
-                placeholder='Enter EMAIL'
+                placeholder='Enter email'
             />
             <TextField
                 className={styles.input}

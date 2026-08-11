@@ -7,6 +7,8 @@ import {Button} from "@/components/UI/Button/Button";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {useGetAuthUserQuery} from "../../services/StoodoService";
+import {setCredentials} from "../../store/authSlice";
+import {useDispatch} from 'react-redux'
 
 interface HeaderProps
 {
@@ -15,11 +17,16 @@ interface HeaderProps
     updateLeftSideBar:(value: boolean) => void
 }
 export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar}: HeaderProps) => {
-    const isAuth = useSelector((state: RootState) => state.auth.isAuth)
-    const { data: authUser } = useGetAuthUserQuery('', { skip: !isAuth })
-    const[leftSideBar, setLeftSideBar] = useState(true)
+    const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+    const { data: authUser } = useGetAuthUserQuery('', { skip: !isAuth });
+    const[leftSideBar, setLeftSideBar] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const dispatch = useDispatch();
 
-    const[modal, setModal] = useState(false)
+    const handleLogout = () => {
+        dispatch(setCredentials({ access_token: null }));
+        setIsMenuOpen(false);
+    };
 
     return (
         <header className={styles.header}>
@@ -43,10 +50,22 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
                     <Button className={styles.notificationsBtn}>
                         <img width="28" height="28"/>
                     </Button>
-                    {authUser !== undefined ?
-                        <div className={styles.personBtn}>
-                            <p>{authUser.username}</p>
+                    {isAuth ?
+                        <div className={styles.profile}>
+                            <Button className={styles.personBtn}
+                                    onClick={() => setIsMenuOpen(prev => !prev)}
+                            >
+                                <p>{authUser?.username}</p>
+                            </Button>
+                            {isMenuOpen && (
+                                <div className={styles.menu}>
+                                    <Button>Profile</Button>
+                                    <Button>Settings</Button>
+                                    <Button onClick={handleLogout}>Log Out</Button>
+                                </div>
+                            )}
                         </div>
+
                     :
                         <Button className={styles.personBtn} onClick={() => updateLoginModal(true)}>
                             <img width="28" height="28"/>

@@ -12,7 +12,6 @@ interface ModalWindowProps{
 export const ModalWindow: FC<ModalWindowProps> = ({children, visible,
                                                       setVisible, className}) => {
 
-    const [mode, setMode] = useState<"login" | "register">("login");
     const rootClasses = [styles.modal]
     const backgroundClasses = [styles.darkBackground]
 

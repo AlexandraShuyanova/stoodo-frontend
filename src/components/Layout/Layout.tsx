@@ -33,9 +33,9 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
             <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal}>
                 {mode === "login"
                     ?
-                    <AuthForm onModeChange={setMode}/>
+                    <AuthForm onModeChange={setMode} onSuccess={() => setLoginModal(false)} />
                     :
-                    <RegisterForm onModeChange={setMode}/>
+                    <RegisterForm onModeChange={setMode} onSuccess={() => setLoginModal(false)}/>
                 }
             </ModalWindow>
             <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>

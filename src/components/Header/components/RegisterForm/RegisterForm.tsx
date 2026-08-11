@@ -2,14 +2,18 @@ import styles from "./RegisterForm.module.scss"
 import {Button} from "@/components/UI/Button/Button";
 import {TextField} from "@/components/UI/TextField/TextField";
 import React, {useState} from "react";
-import {
-    RegisterRequest,
-    useRegisterMutation
-} from "../../../../services/StoodoService";
+import {RegisterRequest, useRegisterMutation} from "../../../../services/StoodoService";
 import { useDispatch } from 'react-redux'
 import {setCredentials} from "../../../../store/authSlice";
 
-export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | "register") => void }) => {
+interface RegisterFormProps
+{
+    onModeChange: (mode: "login" | "register") => void;
+    onSuccess: () => void;
+
+}
+
+export const RegisterForm = ({ onModeChange, onSuccess }: RegisterFormProps) => {
 
     const dispatch = useDispatch()
 
@@ -41,12 +45,13 @@ export const RegisterForm = ({ onModeChange }: { onModeChange: (mode: "login" | 
         }
 
         try {
-            const user = await register(formState).unwrap()
-            dispatch(setCredentials(user))
-            window.location.reload()
+            const user = await register(formState).unwrap();
+            dispatch(setCredentials(user));
+            onSuccess();
+            //window.location.reload()
 
         } catch (err) {
-            dispatch(setCredentials({access_token:null}))
+            dispatch(setCredentials({access_token:null}));
         }
     }
 
