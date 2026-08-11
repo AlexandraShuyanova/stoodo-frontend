@@ -57,39 +57,39 @@ export const PostForm = () => {
 
     const handleChangePostContent = (data: string) =>
     {
-        setPostContent(data)
+        setPostContent(data);
     }
 
     const handleCreatePost = async() => {
         if (isLoadingPostCreate || isLoadingPostContentCreate || isLoadingUploadImage) {
-            return
+            return;
         }
 
         try {
-            const formData = new FormData()
-            formData.append('file', file[0], file[0].name)
+            const formData = new FormData();
+            formData.append('file', file[0], file[0].name);
 
-            const image = await uploadImage(formData).unwrap()
+            const image = await uploadImage(formData).unwrap();
 
-            let id = image.id
+            let id = image.id;
 
             if (!id)
                 return;
 
             formState.image = id;
 
-            const post = await createPost(formState).unwrap()
-            let postId = post.id
+            const post = await createPost(formState).unwrap();
+            let postId = post.id;
 
             if (postId)
             {
-                const postContentRes = await createPostContent({text:postContent, postId}).unwrap()
+                const postContentRes = await createPostContent({text:postContent, postId}).unwrap();
             }
 
-            window.location.reload()
+            window.location.reload();
 
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
     return(

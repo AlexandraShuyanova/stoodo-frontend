@@ -3,7 +3,7 @@
     height: 64px;
     align-items: center;
     position: sticky;
-    padding: 24px 16px;
+    padding: 24px 20px;
     border-bottom: 1px solid var(--border-color);
     top: 0;
     left: 0;
@@ -63,7 +63,8 @@
 .createBtn {
     flex: none;
     width: auto;
-    min-height: 44px;
+    gap: 5px;
+    min-height: 40px;
     margin-right: 25px;
     padding: 9px 16px;
     border-radius: 6px;
@@ -82,55 +83,34 @@
         cursor: wait;
         opacity: .6;
     }
-
-    img {
-        width: 16px;
-        height: 16px;
-        margin-right: 7px;
-    }
 }
 
 .notificationsBtn {
     display: flex;
     background: none;
-    font-weight: 510;
-    color: black;
-
-    img {
-            content: url("/images/bell_black.svg");
-    }
+    color: var(--text-color);
 }
 
 .notificationsBtn:hover{
-    img {
-        content: url("/images/bell_pink.svg");
-    }
+    color: var(--primary-hover-color);
 }
 
-.personBtn {
+.profileBtn {
     display: flex;
     align-items: center;
     justify-content: center;
     background: none;
     font-weight: 510;
-    color: black;
     font-size: 16px;
 
     p {
-        color: black;
-    }
-    img {
-        margin-right: 8px;
-        content: url("/images/login_black.svg");
+        color: var(--text-color);
     }
 }
 
 .personBtn:hover{
     p {
-        color: #e55c78;
-    }
-    img {
-        content: url("/images/login_pink.svg")
+        color: var(--primary-hover-color);
     }
 }
 
@@ -165,6 +145,25 @@
     &:hover {
         background: #f7f7f7;
     }
+}
+
+.profileBtn {
+    display: flex;
+    background: none;
+}
+
+.profileBtn:hover {
+    p {
+        color: var(--primary-hover-color);
+    }
+}
+
+.addIcon {
+    display: flex;
+    color: var(--white-color);
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
 }
 
 

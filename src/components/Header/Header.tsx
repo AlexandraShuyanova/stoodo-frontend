@@ -1,5 +1,8 @@
 import styles from './Header.module.scss';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
 import {Search} from "./components/Search/Search";
 import {useEffect, useRef, useState} from "react";
@@ -43,16 +46,18 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
             </div>
             <div className={styles.sectionRight}>
                 <Button className={styles.createBtn} onClick={() => updateCreatePostModal(true)}>
-                    <img src={"/images/plus-light.svg"} width="20" height="20"/>
+                    <AddIcon className={styles.addIcon}/>
                     Create
                 </Button>
-                <Button className={styles.notificationsBtn}>
-                    <img width="28" height="28"/>
-                </Button>
+                <Button
+                    className={styles.notificationsBtn}
+                    startIcon={<NotificationsNoneIcon/>}/>
                 {isAuth ?
                     <div className={styles.profile}>
-                        <Button className={styles.personBtn}
-                                onClick={() => setIsMenuOpen(prev => !prev)}
+                        <Button
+                            className={styles.profileBtn}
+                            startIcon={<AccountCircleIcon />}
+                            onClick={() => setIsMenuOpen(prev => !prev)}
                         >
                             <p>{authUser?.username}</p>
                         </Button>
@@ -64,10 +69,8 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
                             </div>
                         )}
                     </div>
-
                 :
-                    <Button className={styles.personBtn} onClick={() => updateLoginModal(true)}>
-                        <img width="28" height="28"/>
+                    <Button className={styles.profileBtn} onClick={() => updateLoginModal(true)}>
                         <p>Log In</p>
                     </Button>
                 }
