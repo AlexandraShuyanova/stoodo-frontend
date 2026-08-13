@@ -30,7 +30,6 @@ export const PostForm = () => {
         image: '',
         description: '',
         topic: '',
-        tagsList: []
     })
 
     useEffect(() => {
@@ -76,9 +75,11 @@ export const PostForm = () => {
             if (!id)
                 return;
 
-            formState.image = id;
+            const post = await createPost({
+                ...formState,
+                image: image.id,
+            }).unwrap();
 
-            const post = await createPost(formState).unwrap();
             let postId = post.id;
 
             if (postId)
@@ -125,13 +126,6 @@ export const PostForm = () => {
                     name='slug'
                     type="text"
                     placeholder="Slug"
-                    onChange={handleChangePostForm}
-                />
-                <TextField
-                    className={styles.input}
-                    name='tagsList'
-                    type="text"
-                    placeholder="Tags"
                     onChange={handleChangePostForm}
                 />
                 <div className={styles.textarea}>

@@ -21,7 +21,9 @@ interface HeaderProps
 }
 export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar}: HeaderProps) => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
-    const { data: authUser } = useGetAuthUserQuery('', { skip: !isAuth });
+    const { data: authUser } = useGetAuthUserQuery('', {
+        skip: !isAuth
+    });
     const[leftSideBar, setLeftSideBar] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const dispatch = useDispatch();
@@ -52,7 +54,7 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
                 <Button
                     className={styles.notificationsBtn}
                     startIcon={<NotificationsNoneIcon/>}/>
-                {isAuth ?
+                {authUser !== undefined ?
                     <div className={styles.profile}>
                         <Button
                             className={styles.profileBtn}
