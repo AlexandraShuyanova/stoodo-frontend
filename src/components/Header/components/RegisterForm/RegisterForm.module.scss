@@ -77,20 +77,6 @@
   }
 }
 
-.btn {
-  width: 100%;
-  min-height: 44px;
-  padding: 10px 20px;
-  border: 1px solid var(--primary-color);
-  border-radius: 6px;
-  background: var(--primary-color);
-  color: var(--white-color);
-  transition: background-color .15s ease;
-
-  &:hover:not(:disabled) { background: var(--primary-hover-color); border-color: var(--primary-hover-color); }
-  &:disabled { cursor: wait; opacity: .6; }
-}
-
 .switchMode {
   margin: 30px 0 0;
   font-size: 14px;

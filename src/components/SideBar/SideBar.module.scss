@@ -1,7 +1,7 @@
 .sidebar {
-    display: block;
+    display: flex;
     width: 250px;
-    position: sticky;
+    position: fixed;
     height: calc(100vh - 60px);;
     top: 60px;
     border-right: 1px solid var(--border-color);

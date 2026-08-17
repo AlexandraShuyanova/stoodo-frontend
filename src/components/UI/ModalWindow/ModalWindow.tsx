@@ -1,7 +1,8 @@
-import React, {FC, PropsWithChildren, useState} from "react";
+import React, {FC} from "react";
 import classNames from "classnames";
 import styles from "./ModalWindow.module.scss";
-import {Button} from "@/components/UI/Button/Button";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ModalWindowProps{
     children: React.ReactNode;
@@ -11,27 +12,23 @@ interface ModalWindowProps{
 }
 export const ModalWindow: FC<ModalWindowProps> = ({children, visible,
                                                       setVisible, className}) => {
-
-    const rootClasses = [styles.modal]
-    const backgroundClasses = [styles.darkBackground]
-
-    if (visible)
-    {
-        rootClasses.push(styles.active)
-        rootClasses.push(className)
-        backgroundClasses.push(styles.active)
+    if (!visible) {
+        return null;
     }
 
-    return(
-        <div>
-            <div className={classNames(rootClasses)}>
-                <Button className={styles.closeBtn} onClick={() => setVisible(false)}>
-                    <img width="24" height="24"/>
-                </Button>
+    return (
+        <div className={styles.overlay}>
+            <div
+                className={classNames(styles.dialog, className)}
+                role="dialog"
+                aria-modal="true"
+            >
+                <IconButton className={styles.closeBtn} onClick={() => setVisible(false)}>
+                    <CloseIcon />
+                </IconButton>
                 {children}
             </div>
-            <div className={classNames(backgroundClasses)}>
-            </div>
+            <div className={styles.darkScreen} onClick={() => setVisible(false)} />
         </div>
     )
 }

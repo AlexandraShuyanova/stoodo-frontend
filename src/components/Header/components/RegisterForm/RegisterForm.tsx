@@ -82,7 +82,7 @@ export const RegisterForm = ({ onModeChange, onSuccess }: RegisterFormProps) => 
                 />
                 <label htmlFor="saveSession">Keep me signed in</label>
             </div>
-            <Button className={styles.btn} type="submit" disabled={isLoading}>
+            <Button className={styles.btn} variant='primary' size='small' type="submit" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Sign up"}
             </Button>
             <p className={styles.switchMode}>Already have an account?{" "}

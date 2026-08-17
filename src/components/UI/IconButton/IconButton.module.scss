@@ -1,0 +1,23 @@
+.btn {
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-color);
+  border: none;
+  opacity: 1;
+  transition: opacity 0.3s;
+  background: none;
+  gap: 6px;
+}
+
+.ghost {
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.pink {
+  &:hover{
+    color: var(--primary-hover-color);
+  }
+}

@@ -1,9 +1,10 @@
 .btn {
   border: none;
   cursor: pointer;
-  display: flex;
+  gap: 6px;
   align-items: center;
   justify-content: center;
+  display: inline-flex;
   font-size: 15px;
   font-family: inherit;
   color: black;
@@ -17,6 +18,29 @@
   margin: 0 auto;
 }
 
+.primary {
+  padding: 12px 20px;
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+  background: var(--primary-color);
+  color: var(--white-color);
+  transition: background-color .15s ease;
+
+  &:hover:not(:disabled) { background: var(--primary-hover-color); border-color: var(--primary-hover-color); }
+  &:disabled { cursor: wait; opacity: .6; }
+}
+
+.small {
+  min-height: 40px;
+  color: var(--white-color);
+  padding: 10px 20px;
+}
+
+.big {
+  min-height: 44px;
+  padding: 12px 20px;
+  min-width: 120px;
+}
 
 
 

@@ -12,6 +12,7 @@ import {RootState} from "../../store/store";
 import {useGetAuthUserQuery} from "../../services/StoodoService";
 import {setCredentials} from "../../store/authSlice";
 import {useDispatch} from 'react-redux'
+import {IconButton} from "@/components/UI/IconButton/IconButton";
 
 interface HeaderProps
 {
@@ -36,9 +37,9 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
     return (
         <header className={styles.header}>
             <div className={styles.sectionLeft}>
-                <Button className={styles.burger} onClick={() => {setLeftSideBar(!leftSideBar); updateLeftSideBar(!leftSideBar)}}>
+                <IconButton className={styles.burger} variant='ghost' onClick={() => {setLeftSideBar(!leftSideBar); updateLeftSideBar(!leftSideBar)}}>
                     <MenuIcon/>
-                </Button>
+                </IconButton>
                 <Link className={styles.link} href='/'>
                     STOODO
                 </Link>
@@ -47,13 +48,13 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
                 <Search />
             </div>
             <div className={styles.sectionRight}>
-                <Button className={styles.createBtn} onClick={() => updateCreatePostModal(true)}>
+                <Button className={styles.createBtn} variant='primary' size='big' onClick={() => updateCreatePostModal(true)}>
                     <AddIcon className={styles.addIcon}/>
                     Create
                 </Button>
-                <Button
-                    className={styles.notificationsBtn}
-                    startIcon={<NotificationsNoneIcon/>}/>
+                <IconButton className={styles.notificationsBtn} variant='pink'>
+                    <NotificationsNoneIcon/>
+                </IconButton>
                 {authUser !== undefined ?
                     <div className={styles.profile}>
                         <Button

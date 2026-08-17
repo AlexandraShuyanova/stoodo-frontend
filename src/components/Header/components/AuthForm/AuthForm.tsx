@@ -83,7 +83,7 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
                 />
                 <label htmlFor="saveSession">Keep me signed in</label>
             </div>
-            <Button className={styles.btn} type="submit" disabled={isLoading}>
+            <Button className={styles.btn} variant='primary' type="submit" disabled={isLoading}>
                 {isLoading ? "Signing in..." : "Sign in"}
             </Button>
             <p className={styles.switchMode}>

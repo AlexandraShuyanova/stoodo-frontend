@@ -59,7 +59,9 @@ export const PostForm = () => {
         setPostContent(data);
     }
 
-    const handleCreatePost = async() => {
+    const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (isLoadingPostCreate || isLoadingPostContentCreate || isLoadingUploadImage) {
             return;
         }
@@ -87,61 +89,33 @@ export const PostForm = () => {
                 const postContentRes = await createPostContent({text:postContent, postId}).unwrap();
             }
 
-            window.location.reload();
-
         } catch (err) {
             console.log(err);
         }
     }
     return(
-        <form className={styles.form} onSubmit={handleCreatePost} action="javascript:void(0);">
-            <div className={styles.postContent}>
-                <select
-                    className={styles.topicsCB}
-                    name='topic'
-                    onChange={handleChangePostForm}
-                >
-                    {data?.content?.map(topic =>
-                        <option key={topic.id}>
-                            {topic.topic}
-                        </option>
-                    )}
-                </select>
-                <TextField
-                    className={styles.input}
-                    name='title'
-                    type="text"
-                    placeholder="Title"
-                    onChange={handleChangePostForm}
+        <form className={styles.form} onSubmit={handleCreatePost}>
+            <TextField
+                className={styles.input}
+                name='title'
+                type="text"
+                placeholder="Title"
+                onChange={handleChangePostForm}
+            />
+            <div className={styles.postEditor}>
+                <HtmlEditor
+                    onChange={handleChangePostContent}
+                    editorLoaded={htmlEditorLoaded}
+                    name={"PostContentData"}
+                    value={postContent}
                 />
-                <TextField
-                    className={styles.input}
-                    name='description'
-                    type="text"
-                    placeholder="Description"
-                    onChange={handleChangePostForm}
-                />
-                <TextField
-                    className={styles.input}
-                    name='slug'
-                    type="text"
-                    placeholder="Slug"
-                    onChange={handleChangePostForm}
-                />
-                <div className={styles.textarea}>
-                    <HtmlEditor
-                        onChange={handleChangePostContent}
-                        editorLoaded={htmlEditorLoaded}
-                        name={"PostContentData"}
-                        value={postContent}
-                    />
-                </div>
-                <input className={styles.imageBtn} type="file" onChange={event => setFile(event.target?.files)}/>
-
             </div>
-            <Button className={styles.publishBtn} onClick={handleCreatePost} >
-                Publish
-            </Button>
+            <div className={styles.actions}>
+                <input className={styles.imageBtn} type="file" onChange={event => setFile(event.target?.files)}/>
+                <Button className={styles.publishBtn} variant='primary' size='big' type="submit" >
+                    Publish
+                </Button>
+            </div>
         </form>
     )
 }

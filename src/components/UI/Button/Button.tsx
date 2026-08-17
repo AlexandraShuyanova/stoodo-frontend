@@ -1,20 +1,22 @@
 import React, {ButtonHTMLAttributes, FC, forwardRef, ReactNode} from "react";
 import styles from "./Button.module.scss";
-import classNames from 'classnames';
-
-
+import cn from 'classnames';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     startIcon?: ReactNode;
+    variant?: 'primary' | 'ghost';
+    size?: 'big' | 'small';
 }
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({className, children, startIcon=null, ...props}) => {
+export const Button = ({children, variant, size, startIcon, className, ...props} : ButtonProps) =>{
     return(
-        <button {...props} className={classNames(className, styles.btn)}
+        <button {...props} className={cn(className, styles.btn, {
+            [styles['primary']]: variant === 'primary',
+            [styles['small']]: size === 'small',
+            [styles['big']]: size === 'big',
+        })}
         >
             {startIcon && <span className={styles.startIcon}>{startIcon}</span>}
             {children}
         </button>
     )
-})
-
-Button.displayName = 'Button'
+};
