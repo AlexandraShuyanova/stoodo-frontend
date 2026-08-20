@@ -14,22 +14,19 @@ import dynamic from "next/dynamic";
 const HtmlEditor = dynamic(() => import("@/components/UI/HtmlEditor/HtmlEditor"), { ssr: false });
 
 export const PostForm = () => {
-    const [file, setFile] = useState<any|null>(null)
+    const [file, setFile] = useState<any|null>(null);
     const [htmlEditorLoaded, setHtmlEditorLoaded] = useState<boolean>(false);
-    const [postContent, setPostContent] = useState('')
+    const [postContent, setPostContent] = useState('');
 
-    const [createPost, { isLoading: isLoadingPostCreate }] = useCreatePostMutation()
-    const [createPostContent, { isLoading: isLoadingPostContentCreate }] = useCreatePostContentMutation()
-    const [uploadImage, { isLoading: isLoadingUploadImage }] = useUploadImageMutation()
+    const [createPost, { isLoading: isLoadingPostCreate }] = useCreatePostMutation();
+    const [uploadImage, { isLoading: isLoadingUploadImage }] = useUploadImageMutation();
 
     const {data, isFetching} = useGetTopicsListQuery('');
 
     const [formState, setFormState] = React.useState<CreatePostRequest>({
         title: '',
-        slug: '',
         image: '',
-        description: '',
-        topic: '',
+        content: ''
     })
 
     useEffect(() => {
@@ -39,30 +36,21 @@ export const PostForm = () => {
     const handleChangePostForm = ({
                               target: { name, value},
                           }: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        if (name == 'tagsList')
-        {
-            setFormState((prev) => ({...prev, [name]: value.split('#')}))
-        }
-        else if (name == 'topic') {
-            data?.content?.map(item => {
-                if (item.topic == value) {
-                    setFormState((prev) => ({...prev, [name]: item.id}))
-                }
-            })
-        }
-        else
-            setFormState((prev) => ({ ...prev, [name]: value }))
+
+        setFormState((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleChangePostContent = (data: string) =>
-    {
-        setPostContent(data);
-    }
+    const handleChangePostContent = (content: string) => {
+        setFormState((prev) => ({
+            ...prev,
+            content,
+        }));
+    };
 
     const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (isLoadingPostCreate || isLoadingPostContentCreate || isLoadingUploadImage) {
+        if (isLoadingPostCreate || isLoadingUploadImage) {
             return;
         }
 
@@ -82,13 +70,6 @@ export const PostForm = () => {
                 image: image.id,
             }).unwrap();
 
-            let postId = post.id;
-
-            if (postId)
-            {
-                const postContentRes = await createPostContent({text:postContent, postId}).unwrap();
-            }
-
         } catch (err) {
             console.log(err);
         }
@@ -97,17 +78,17 @@ export const PostForm = () => {
         <form className={styles.form} onSubmit={handleCreatePost}>
             <TextField
                 className={styles.input}
-                name='title'
+                name="title"
                 type="text"
                 placeholder="Title"
+                value={formState.title}
                 onChange={handleChangePostForm}
             />
             <div className={styles.postEditor}>
                 <HtmlEditor
-                    onChange={handleChangePostContent}
                     editorLoaded={htmlEditorLoaded}
-                    name={"PostContentData"}
-                    value={postContent}
+                    value={formState.content}
+                    onChange={handleChangePostContent}
                 />
             </div>
             <div className={styles.actions}>

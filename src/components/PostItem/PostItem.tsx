@@ -45,20 +45,20 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 export const PostItem: FC<PostItemProps> = ({item}) => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuth)
-    const {id, title, description, image, owner, slug} = {...item}
-    const { data: userPostInteractionData } = useGetUserPostInteractionQuery(id, { skip: !isAuth });
+    const {id, title, slug, images, owner, posts_content} = {...item}
+    //const { data: userPostInteractionData } = useGetUserPostInteractionQuery(id, { skip: !isAuth });
     const [expanded, setExpanded] = React.useState(false);
     const [liked, setLiked] = React.useState(false);
-    const [likePost, { isLoading: isLoadingLikePost }] = useLikePostMutation();
-    const { data: postContentData } = useGetPostContentByIdQuery(id);
-    const {data, isLoading, refetch} = useGetPostStatByIdQuery(id);
+    //const [likePost, { isLoading: isLoadingLikePost }] = useLikePostMutation();
+    //const { data: postContentData } = useGetPostContentByIdQuery(id);
+    //const {data, isLoading, refetch} = useGetPostStatByIdQuery(id);
     
-    useEffect(() => {
+    /*useEffect(() => {
         if(userPostInteractionData != undefined)
             setLiked(userPostInteractionData?.liked)
-    }, [userPostInteractionData])
+    }, [userPostInteractionData])*/
 
-    const likeClass = liked ? styles.likeActive : styles.likeInactive;
+    //const likeClass = liked ? styles.likeActive : styles.likeInactive;
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -87,7 +87,7 @@ export const PostItem: FC<PostItemProps> = ({item}) => {
                             </IconButton>
                         }
                         title={title}
-                        subheader={owner.firstName + " " + owner.lastName}
+                        subheader={owner?.first_name + " " + owner?.last_name}
             />
 
             <div className={styles.cardMainContent}>
@@ -96,22 +96,21 @@ export const PostItem: FC<PostItemProps> = ({item}) => {
                         className={styles.postImage}
                         component="img"
                         height="400"
-                        image={image?.url}
-                        alt="Paella dish"
+                        image={images?.url}
+                        alt="Post image"
                     />
                     <CardContent>
                         <Typography variant="body2" color="text.secondary">
-                            {description}
+
                         </Typography>
                     </CardContent>
                 </Link>
             </div>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
-                    <FavoriteIcon className={likeClass}
-                                  onClick={handleFavoriteClick}
+                    <FavoriteIcon onClick={handleFavoriteClick}
                     />
-                    <span>{data?.likes_count}</span>
+                    <span></span>
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
@@ -127,7 +126,11 @@ export const PostItem: FC<PostItemProps> = ({item}) => {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
-                    <Typography paragraph>{postContentData?.text}</Typography>
+                    <Typography paragraph>
+                        {posts_content[0]?.text
+                                .replace(/<[^>]*>/g, '')
+                                .slice(0, 150)}
+                    </Typography>
                 </CardContent>
             </Collapse>
         </Card>

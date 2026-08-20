@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react';
 import {PostItem} from "@/components/PostItem/PostItem";
 import styles from "./PostList.module.scss";
-import {useGetListNotPublishedQuery, useGetListPublishedQuery} from "../../services/StoodoService";
+import {useGetPostsQuery} from "../../services/StoodoService";
 import {CircularProgress} from "@mui/material";
 import {IPost} from "@/types/IPost";
 
 export const PostList = () => {
-    const [page, setPage] = useState(0);
+    //const [page, setPage] = useState(0);
     const [postList, setPostList] = useState<IPost[]>([]);
-    const {data, isFetching} = useGetListPublishedQuery(page);
+    const {data, isFetching} = useGetPostsQuery();
 
     useEffect(() => {
         if (data === undefined || data.content.length === 0)
@@ -23,7 +23,7 @@ export const PostList = () => {
         setPostList( list => [...list, ...data.content])
     }, [data, postList])
 
-    useEffect(() => {
+    /*useEffect(() => {
         const handleScroll = () => {
             const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight
 
@@ -35,7 +35,7 @@ export const PostList = () => {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [isFetching, data]);
+    }, [isFetching, data]);*/
 
     return (
         <section>

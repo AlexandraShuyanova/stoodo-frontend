@@ -26,11 +26,8 @@ export interface RegisterRequest {
 
 export interface CreatePostRequest {
     title: string,
-    slug: string,
     image: string,
-    description: string,
-    topic: string|any|undefined,
-    tagsList: string[],
+    content: string
 }
 
 export interface ITopics {
@@ -46,8 +43,9 @@ export const stoodoAPI = createApi({
         }
     },
     endpoints: (build) => ({
-        getListPublished: build.query<IPosts, number>({
-            query: page => `post/list_published?page=${page}&size=10`
+        getPosts: build.query<IPosts, any>({
+            query: () => `post/posts`,
+            providesTags: ['Posts'],
         }),
         getListNotPublished: build.query<IPosts, number>({
             query: page => `post/list_not_published?page=${page}&size=10`
@@ -93,13 +91,7 @@ export const stoodoAPI = createApi({
                 method: 'POST',
                 body: credentials,
             }),
-        }),
-        createPostContent: build.mutation<any, {text:string, postId: string}>({
-            query:(credentials) => ({
-                url: 'post/create_post_content',
-                method: 'POST',
-                body: credentials,
-            }),
+            invalidatesTags: ['Posts']
         }),
         uploadImage: build.mutation<IImage, FormData> ({
             query: (credentials) => ({
@@ -120,11 +112,11 @@ export const stoodoAPI = createApi({
     }),
 });
 
-export const { useGetListPublishedQuery, useGetListNotPublishedQuery,
+export const { useGetPostsQuery, useGetListNotPublishedQuery,
     useGetUserPostInteractionQuery, useGetTopicsListQuery,
     useGetPostContentByIdQuery, useGetPostStatByIdQuery,
     useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
-    useProtectedMutation, useCreatePostMutation, useCreatePostContentMutation,
+    useProtectedMutation, useCreatePostMutation,
     useUploadImageMutation, useLikePostMutation,  useGetAuthUserQuery,
     useGetPostContentBySlugQuery,
     util: { getRunningQueriesThunk }} = stoodoAPI;
