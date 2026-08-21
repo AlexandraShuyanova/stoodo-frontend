@@ -41,7 +41,7 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
             <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>
                 <PostForm/>
             </ModalWindow>
-            <Header updateLoginModal={updateLoginModal} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>
+            <Header updateLoginModal={updateLoginModal} onModeChange={setMode} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>
             <div className={styles.main}>
                 <SideBar className={styles.leftSideBar} visible={isLeftBarVisible} setVisible={setLeftBarVisibility}/>
                 <main className={styles.postList}>

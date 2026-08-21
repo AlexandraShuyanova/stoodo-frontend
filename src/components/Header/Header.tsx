@@ -18,9 +18,10 @@ interface HeaderProps
 {
     updateLoginModal:(value: boolean) => void,
     updateCreatePostModal:(value: boolean) => void,
-    updateLeftSideBar:(value: boolean) => void
+    updateLeftSideBar:(value: boolean) => void,
+    onModeChange: (mode: "login" | "register") => void;
 }
-export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar}: HeaderProps) => {
+export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar, onModeChange}: HeaderProps) => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
     const { data: authUser } = useGetAuthUserQuery('', {
         skip: !isAuth
@@ -33,6 +34,11 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
         dispatch(setCredentials({ access_token: null }));
         setIsMenuOpen(false);
     };
+
+    const onAuthClicked = (mode: "login" | "register") => {
+        updateLoginModal(true);
+        onModeChange(mode);
+    }
 
     return (
         <header className={styles.header}>
@@ -47,15 +53,24 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
             <div className={styles.sectionCenter}>
                 <Search />
             </div>
-            <div className={styles.sectionRight}>
-                <Button className={styles.createBtn} variant='primary' size='big' onClick={() => updateCreatePostModal(true)}>
-                    <AddIcon className={styles.addIcon}/>
-                    Create
-                </Button>
-                <IconButton className={styles.notificationsBtn} variant='pink'>
-                    <NotificationsNoneIcon/>
-                </IconButton>
-                {authUser !== undefined ?
+            {authUser === undefined ?
+                <div className={styles.sectionRight}>
+                    <Button className={styles.loginBtn} variant='ghost' size='small' onClick={() => onAuthClicked('login')}>
+                        Log in
+                    </Button>
+                    <Button className={styles.signupBtn} variant='primary' size='small' onClick={() => onAuthClicked('register')}>
+                        Sign up
+                    </Button>
+                </div>
+            :
+                <div className={styles.sectionRight}>
+                    <Button className={styles.createBtn} variant='primary' size='big' onClick={() => updateCreatePostModal(true)}>
+                        <AddIcon className={styles.addIcon}/>
+                        Create
+                    </Button>
+                    <IconButton className={styles.notificationsBtn} variant='pink'>
+                        <NotificationsNoneIcon/>
+                    </IconButton>
                     <div className={styles.profile}>
                         <Button
                             className={styles.profileBtn}
@@ -72,12 +87,8 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
                             </div>
                         )}
                     </div>
-                :
-                    <Button className={styles.profileBtn} onClick={() => updateLoginModal(true)}>
-                        <p>Log In</p>
-                    </Button>
-                }
-            </div>
+                </div>
+            }
         </header>
     );
 };

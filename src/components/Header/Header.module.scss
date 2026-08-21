@@ -8,6 +8,7 @@
     top: 0;
     left: 0;
     z-index: 2;
+    background: #fafafa;
 }
 
 .sectionLeft {
@@ -26,6 +27,7 @@
 .sectionRight {
     display: flex;
     align-items: center;
+    gap: 12px;
 }
 
 .burger {
@@ -49,10 +51,6 @@
     text-decoration: none;
     font-family: inherit;
     letter-spacing: .16em;
-}
-
-.createBtn {
-    margin-right: 25px;
 }
 
 .notificationsBtn {

@@ -1,140 +1,102 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import styles from './PostItem.module.scss';
-import {IPost} from "@/types/IPost";
-import {FC, useEffect} from "react";
-import Link from 'next/link';
-import {
-    useLikePostMutation,
-    useGetUserPostInteractionQuery, useGetPostContentByIdQuery, useGetPostStatByIdQuery
-} from "../../services/StoodoService";
-import {useSelector} from "react-redux";
-import {RootState} from "../../store/store";
+import { IPost } from "@/types/IPost";
+import { FC } from "react";
+import { useGetPostStatByIdQuery } from "../../services/StoodoService";
+import { useRouter } from "next/router";
 
 interface PostItemProps {
-    item: IPost
-}
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
+    item: IPost;
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+export const PostItem: FC<PostItemProps> = ({ item }) => {
+    const { id, title, slug, images, owner, posts_content, created_at } = item;
+    const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
+    const router = useRouter();
 
-export const PostItem: FC<PostItemProps> = ({item}) => {
-    const isAuth = useSelector((state: RootState) => state.auth.isAuth)
-    const {id, title, slug, images, owner, posts_content} = {...item}
-    //const { data: userPostInteractionData } = useGetUserPostInteractionQuery(id, { skip: !isAuth });
-    const [expanded, setExpanded] = React.useState(false);
-    const [liked, setLiked] = React.useState(false);
-    //const [likePost, { isLoading: isLoadingLikePost }] = useLikePostMutation();
-    //const { data: postContentData } = useGetPostContentByIdQuery(id);
-    //const {data, isLoading, refetch} = useGetPostStatByIdQuery(id);
-    
-    /*useEffect(() => {
-        if(userPostInteractionData != undefined)
-            setLiked(userPostInteractionData?.liked)
-    }, [userPostInteractionData])*/
+    const content = posts_content?.find((post) => post.is_current_version) ?? posts_content?.[0];
+    const excerpt = content?.text
+        ? content.text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().slice(0, 180)
+        : '';
 
-    //const likeClass = liked ? styles.likeActive : styles.likeInactive;
+    const authorName = owner ? `${owner.first_name} ${owner.last_name}` : 'Unknown author';
+    const authorInitial = owner?.first_name?.[0] ?? 'R';
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const handleOpenPost = () => {
+        router.push(`/posts/${slug}`);
     };
-    const handleFavoriteClick = async() => {
-        if (isLoadingLikePost) {
-            return
-        }
 
-        const isUserLikePost = await likePost({id, isLiked: !liked}).unwrap();
-        refetch();
-        setLiked(isUserLikePost.liked);
+    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+    };
+
+    const formatTimeAgo = (value: string | null) => {
+        if (!value) return '';
+
+        const created = new Date(value);
+        if (Number.isNaN(created.getTime())) return '';
+
+        const diffMs = Date.now() - created.getTime();
+        const diffMin = Math.floor(diffMs / 60000);
+        const diffHour = Math.floor(diffMin / 60);
+        const diffDay = Math.floor(diffHour / 24);
+
+        if (diffMin < 1) return 'just now';
+        if (diffMin < 60) return `${diffMin}m ago`;
+        if (diffHour < 24) return `${diffHour}h ago`;
+        if (diffDay < 7) return `${diffDay}d ago`;
+        return created.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
     };
 
     return (
-        <Card className={styles.post}>
-            <CardHeader className={styles.postHeader}
-                        avatar={
-                            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                                R
-                            </Avatar>
-                        }
-                        action={
-                            <IconButton aria-label="settings">
-                                <MoreVertIcon />
-                            </IconButton>
-                        }
-                        title={title}
-                        subheader={owner?.first_name + " " + owner?.last_name}
-            />
+        <div className={styles.post} onClick={handleOpenPost} role="button" tabIndex={0}>
+            <div className={styles.headerRow}>
+                <div className={styles.authorBlock}>
+                    <Avatar className={styles.avatar}>{authorInitial}</Avatar>
+                    <div className={styles.authorMeta}>
+                        <div className={styles.authorName}>{authorName}</div>
+                        <div className={styles.time}>{formatTimeAgo(created_at)}</div>
+                    </div>
+                </div>
 
-            <div className={styles.cardMainContent}>
-                <Link href={`/posts/${slug}`}>
-                    <CardMedia
-                        className={styles.postImage}
-                        component="img"
-                        height="400"
-                        image={images?.url}
-                        alt="Post image"
-                    />
-                    <CardContent>
-                        <Typography variant="body2" color="text.secondary">
-
-                        </Typography>
-                    </CardContent>
-                </Link>
+                <IconButton className={styles.moreBtn} aria-label="Post actions" onClick={handleMenuClick}>
+                    <MoreVertIcon />
+                </IconButton>
             </div>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon onClick={handleFavoriteClick}
-                    />
-                    <span></span>
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>
-                        {posts_content[0]?.text
-                                .replace(/<[^>]*>/g, '')
-                                .slice(0, 150)}
-                    </Typography>
-                </CardContent>
-            </Collapse>
-        </Card>
+
+            <div className={styles.body}>
+                <div className={styles.content}>
+                    <h3 className={styles.title}>{title}</h3>
+                    {excerpt && <p className={styles.excerpt}>{excerpt}</p>}
+                </div>
+
+                {images?.url && (
+                    <img className={styles.postImage} src={images.url} alt={title} />
+                )}
+            </div>
+
+            <div className={styles.footer}>
+                <div className={styles.stats}>
+                    <span className={styles.statItem}>
+                        <FavoriteBorderIcon fontSize="small" />
+                        <span>{postStat?.likes_count ?? 0}</span>
+                    </span>
+                    <span className={styles.statItem}>
+                        <ChatBubbleOutlineIcon fontSize="small" />
+                        <span>{postStat?.opened_count ?? 0}</span>
+                    </span>
+                    <span className={styles.statItem}>
+                        <BookmarkBorderIcon fontSize="small" />
+                    </span>
+                </div>
+
+            </div>
+        </div>
     );
-}
-
-
+};

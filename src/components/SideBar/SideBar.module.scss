@@ -5,6 +5,7 @@
     height: calc(100vh - 60px);;
     top: 60px;
     border-right: 1px solid var(--border-color);
+    z-index: 10;
 }
 
 .sidebar.inactive{

@@ -30,9 +30,29 @@
   &:disabled { cursor: wait; opacity: .6; }
 }
 
+.ghost {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-color);
+
+  &:hover:not(:disabled) {
+    background: var(--primary-hover-color);
+    border-color: var(--primary-hover-color);
+    color: var(--white-color);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .6;
+  }
+}
+
+
 .small {
   min-height: 40px;
-  color: var(--white-color);
   padding: 10px 20px;
 }
 

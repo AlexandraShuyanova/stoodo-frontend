@@ -11,6 +11,7 @@ export const Button = ({children, variant, size, startIcon, className, ...props}
     return(
         <button {...props} className={cn(className, styles.btn, {
             [styles['primary']]: variant === 'primary',
+            [styles['ghost']]: variant === 'ghost',
             [styles['small']]: size === 'small',
             [styles['big']]: size === 'big',
         })}
