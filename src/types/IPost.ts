@@ -52,15 +52,12 @@ export interface IPostContent {
     last_modified_at: string | null;
 }
 
-
-
-
-
-
 export interface ITopic {
     id: string,
     topic: string,
+    color: string,
 }
+
 export interface ITag {
     id: string,
     tag: string,

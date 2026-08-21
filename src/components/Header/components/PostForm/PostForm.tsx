@@ -4,9 +4,8 @@ import {Button} from "@/components/UI/Button/Button";
 import React, {useEffect, useState} from "react";
 import {
     CreatePostRequest,
-    useCreatePostContentMutation,
     useCreatePostMutation,
-    useGetTopicsListQuery,
+    useGetTopicsQuery,
     useUploadImageMutation
 } from "../../../../services/StoodoService";
 import dynamic from "next/dynamic";
@@ -17,11 +16,11 @@ export const PostForm = () => {
     const [file, setFile] = useState<any|null>(null);
     const [htmlEditorLoaded, setHtmlEditorLoaded] = useState<boolean>(false);
     const [postContent, setPostContent] = useState('');
-
+    const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
     const [createPost, { isLoading: isLoadingPostCreate }] = useCreatePostMutation();
     const [uploadImage, { isLoading: isLoadingUploadImage }] = useUploadImageMutation();
 
-    const {data, isFetching} = useGetTopicsListQuery('');
+    const {data, isFetching} = useGetTopicsQuery();
 
     const [formState, setFormState] = React.useState<CreatePostRequest>({
         title: '',
@@ -45,6 +44,10 @@ export const PostForm = () => {
             ...prev,
             content,
         }));
+    };
+
+    const handleSelectTopic = (topicId: string) => {
+        setSelectedTopic(topicId);
     };
 
     const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -76,14 +79,36 @@ export const PostForm = () => {
     }
     return(
         <form className={styles.form} onSubmit={handleCreatePost}>
+            <div className={styles.titleTitle}>Title</div>
             <TextField
                 className={styles.input}
                 name="title"
                 type="text"
-                placeholder="Title"
+                placeholder="Enter a catchy title..."
                 value={formState.title}
                 onChange={handleChangePostForm}
             />
+
+            <div className={styles.topicsBlock}>
+                <div className={styles.topicTitle}>Topic</div>
+                <div className={styles.topicsList}>
+                    {data?.map((topic) => {
+                        const isActive = selectedTopic === topic.id;
+
+                        return (
+                            <button
+                                key={topic.id}
+                                type="button"
+                                className={`${styles.topicChip} ${isActive ? styles.topicChipActive : ''}`}
+                                onClick={() => handleSelectTopic(topic.id)}
+                            >
+                                {topic.topic}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+
             <div className={styles.postEditor}>
                 <HtmlEditor
                     editorLoaded={htmlEditorLoaded}
@@ -91,11 +116,15 @@ export const PostForm = () => {
                     onChange={handleChangePostContent}
                 />
             </div>
-            <div className={styles.actions}>
-                <input className={styles.imageBtn} type="file" onChange={event => setFile(event.target?.files)}/>
-                <Button className={styles.publishBtn} variant='primary' size='big' type="submit" >
-                    Publish
-                </Button>
+
+            <div className={styles.actionsBlock}>
+                <div className={styles.imageTitle}>Attach image(optional)</div>
+                    <div className={styles.actionsList}>
+                        <input className={styles.imageBtn} type="file" onChange={event => setFile(event.target?.files)}/>
+                        <Button className={styles.publishBtn} variant='primary' size='big' type="submit" >
+                            Publish
+                        </Button>
+                    </div>
             </div>
         </form>
     )

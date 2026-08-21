@@ -13,19 +13,87 @@
   border-radius: 8px;
 }
 
-.input {
+.titleTitle,
+.topicTitle,
+.imageTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #111827;
+}
 
+.input {
   input {
+    height: 44px;
+    padding: 0 14px;
     font-size: 14px;
-    border: 1px solid rgba(#000, .2);
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  input::placeholder {
+    color: #9ca3af;
   }
 }
 
-.postEditor{
+.topicsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.topicsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.topicsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.topicChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+
+  &:hover {
+    background: #fdeff2;
+    border-color: #f7b9c6;
+    color: #f05a76;
+  }
+}
+
+.topicChipActive {
+  background: #f05a76;
+  border-color: #f05a76;
+  color: #fff;
+}
+
+.postEditor {
   display: flex;
   width: 100%;
   min-height: 0;
   flex: 1 1 auto;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
 }
 
 .postEditor :global(.ck-editor) {
@@ -34,6 +102,12 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+.postEditor :global(.ck-toolbar) {
+  border: 0;
+  border-radius: 10px 10px 0 0;
+  background: #fff;
 }
 
 .postEditor :global(.ck-editor__main) {
@@ -46,18 +120,37 @@
   min-height: 100%;
   overflow-y: auto;
   box-sizing: border-box;
+  border: 0 !important;
+  border-radius: 0 0 10px 10px !important;
+  box-shadow: none !important;
 }
 
-.actions {
+.actionsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actionsTitle {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.actionsList {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
 }
 
-.publishBtn {
-  display: flex;
+.imageBtn {
+  width: 100%;
+  padding: 10px 0;
 }
 
-
+.publishBtn {
+  align-self: flex-end;
+}
 

@@ -30,10 +30,6 @@ export interface CreatePostRequest {
     content: string
 }
 
-export interface ITopics {
-    content: ITopic[];
-}
-
 export const stoodoAPI = createApi({
     reducerPath: 'stoodoAPI',
     baseQuery: authFetchBase,
@@ -47,14 +43,14 @@ export const stoodoAPI = createApi({
             query: () => `post/posts`,
             providesTags: ['Posts'],
         }),
+        getTopics: build.query<ITopic[], any>({
+            query:() => `topic/topics`
+        }),
         getListNotPublished: build.query<IPosts, number>({
             query: page => `post/list_not_published?page=${page}&size=10`
         }),
         getUserPostInteraction: build.query<UserPostInteraction, string> ({
             query: id => `post/user_interaction_by_post/${id}`
-        }),
-        getTopicsList: build.query<ITopics, any>({
-            query:() => `post/topics_list?page=0&size=10`
         }),
         getPostContentById: build.query<PostContentResponse, string>({
             query: id=>`post/get_content_by_post_id/${id}`
@@ -113,7 +109,7 @@ export const stoodoAPI = createApi({
 });
 
 export const { useGetPostsQuery, useGetListNotPublishedQuery,
-    useGetUserPostInteractionQuery, useGetTopicsListQuery,
+    useGetUserPostInteractionQuery, useGetTopicsQuery,
     useGetPostContentByIdQuery, useGetPostStatByIdQuery,
     useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
     useProtectedMutation, useCreatePostMutation,
