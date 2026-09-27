@@ -12,7 +12,11 @@ import dynamic from "next/dynamic";
 
 const HtmlEditor = dynamic(() => import("@/components/UI/HtmlEditor/HtmlEditor"), { ssr: false });
 
-export const PostForm = () => {
+interface PostFormProps {
+    onSuccess: () => void;
+}
+
+export const PostForm = ({onSuccess}: PostFormProps) => {
     const [file, setFile] = useState<any|null>(null);
     const [htmlEditorLoaded, setHtmlEditorLoaded] = useState<boolean>(false);
     const [postContent, setPostContent] = useState('');
@@ -72,7 +76,7 @@ export const PostForm = () => {
                 ...formState,
                 image: image.id,
             }).unwrap();
-
+            onSuccess();
         } catch (err) {
             console.log(err);
         }

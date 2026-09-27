@@ -39,11 +39,11 @@ export const stoodoAPI = createApi({
         }
     },
     endpoints: (build) => ({
-        getPosts: build.query<IPosts, any>({
+        getPosts: build.query<IPosts, void>({
             query: () => `post/posts`,
             providesTags: ['Posts'],
         }),
-        getTopics: build.query<ITopic[], any>({
+        getTopics: build.query<ITopic[], void>({
             query:() => `topic/topics`
         }),
         getListNotPublished: build.query<IPosts, number>({

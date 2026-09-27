@@ -1,30 +1,28 @@
 .container {
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
 }
 
 .main {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: flex-start;
+  padding: 0 20px;
 }
 
 .postList {
   display: flex;
   flex: 1;
+  min-width: 0;
   padding-top: 16px;
   padding-bottom: 16px;
-  margin: 0 auto;
   justify-content: center;
   position: relative;
 }
 
 .leftSideBar {
   width: 220px;
-}
-
-.rightSideBar {
-  width: 320px;
+  flex: 0 0 220px;
 }
 
 .loginModal {
@@ -38,6 +36,71 @@
   top: 10%;
   transform: translateX(-50%);
 }
+
+.rightSideBar {
+  width: 320px;
+  flex: 0 0 320px;
+  position: sticky;
+  top: 84px;
+  padding-top: 16px;
+  border-left: 1px solid var(--border-color);
+  height: calc(100vh - 60px);
+}
+
+.topics {
+  background: transparent;
+  border: none;
+  padding: 20px;
+}
+
+.topicsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.topicTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.viewAll {
+  border: none;
+  background: none;
+  padding: 0;
+  color: #d9556d;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.topicsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.topic {
+  border: none;
+  border-radius: 8px;
+  padding: 14px 12px;
+  min-width: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  color: #303030;
+
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.topic:hover {
+  transform: translateY(-1px);
+}
+
+
 
 
 

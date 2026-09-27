@@ -7,6 +7,7 @@ import {ModalWindow} from "@/components/UI/ModalWindow/ModalWindow";
 import {AuthForm} from "@/components/Header/components/AuthForm/AuthForm";
 import {PostForm} from "@/components/Header/components/PostForm/PostForm";
 import {RegisterForm} from "@/components/Header/components/RegisterForm/RegisterForm";
+import {useGetTopicsQuery} from "../../services/StoodoService";
 
 
 export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
@@ -15,6 +16,7 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
     const[createPostModal, setCreatePostModal] = useState(false)
     const[isLeftBarVisible, setLeftBarVisibility] = useState(true)
     const [mode, setMode] = useState<"login" | "register">("login");
+    const {data, isFetching} = useGetTopicsQuery();
     const updateLoginModal = (value:boolean) =>
     {
         setLoginModal(value);
@@ -39,7 +41,7 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
                 }
             </ModalWindow>
             <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>
-                <PostForm/>
+                <PostForm onSuccess={() => setCreatePostModal(false)}/>
             </ModalWindow>
             <Header updateLoginModal={updateLoginModal} onModeChange={setMode} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>
             <div className={styles.main}>
@@ -47,8 +49,29 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
                 <main className={styles.postList}>
                     {children}
                 </main>
-                <div className={styles.rightSideBar}></div>
-                {/* <SideBar className={styles.rightSideBar}/> */}
+                <div className={styles.rightSideBar}>
+                    <div className={styles.topics}>
+                        <div className={styles.topicsHeader}>
+                            <div className={styles.topicTitle}>Topics</div>
+
+                            <button className={styles.viewAll}>
+                                View all
+                            </button>
+                        </div>
+
+                        <div className={styles.topicsGrid}>
+                            {data?.map((topic) => (
+                                <button
+                                    key={topic.id}
+                                    className={styles.topic}
+                                    style={{ backgroundColor: topic.color }}
+                                >
+                                    {topic.topic}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
             <Footer />
         </div>

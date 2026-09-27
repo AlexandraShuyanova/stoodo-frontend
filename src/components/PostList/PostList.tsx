@@ -11,17 +11,19 @@ export const PostList = () => {
     const {data, isFetching} = useGetPostsQuery();
 
     useEffect(() => {
-        if (data === undefined || data.content.length === 0)
-            return
+        if (!data?.content.length) return;
 
-        for (let post of postList) {
-            if (post.id === data.content[0].id) {
-                return
-            }
-        }
-
-        setPostList( list => [...list, ...data.content])
-    }, [data, postList])
+        setPostList(current => {
+            const existingIds = new Set(current.map(post => post.id));
+            const newPosts = data.content.filter(post => !existingIds.has(post.id));
+            const updatedList = newPosts.length ? [...current, ...newPosts] : current;
+            return [...updatedList].sort((a, b) => {
+                const aTime = a.created_at ? Date.parse(a.created_at) : 0;
+                const bTime = b.created_at ? Date.parse(b.created_at) : 0;
+                return bTime - aTime;
+            });
+        });
+    }, [data])
 
     /*useEffect(() => {
         const handleScroll = () => {

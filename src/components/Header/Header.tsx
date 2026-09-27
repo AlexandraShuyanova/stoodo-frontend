@@ -24,7 +24,8 @@ interface HeaderProps
 export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar, onModeChange}: HeaderProps) => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
     const { data: authUser } = useGetAuthUserQuery('', {
-        skip: !isAuth
+        skip: !isAuth,
+        refetchOnMountOrArgChange: true,
     });
     const[leftSideBar, setLeftSideBar] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -53,7 +54,7 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
             <div className={styles.sectionCenter}>
                 <Search />
             </div>
-            {authUser === undefined ?
+            {!isAuth || authUser === undefined ?
                 <div className={styles.sectionRight}>
                     <Button className={styles.loginBtn} variant='ghost' size='small' onClick={() => onAuthClicked('login')}>
                         Log in
