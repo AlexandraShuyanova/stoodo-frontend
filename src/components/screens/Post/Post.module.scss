@@ -1,7 +1,13 @@
+.section {
+  width: 100%;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  width: 1050px;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 70px 0 auto;
   font-family: sans-serif;
   overflow: hidden;
 }

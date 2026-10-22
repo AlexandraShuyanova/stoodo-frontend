@@ -1,29 +1,105 @@
 import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import IosShareIcon from '@mui/icons-material/IosShare';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styles from './PostContent.module.scss';
-import {PostContentResponse} from "@/types/IPost";
-import {FC} from "react";
+import {IPost} from "@/types/IPost";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import {
+    useGetPostStatByIdQuery,
+    useGetUserPostInteractionQuery,
+    useLikePostMutation
+} from "../../services/StoodoService";
+import {useRouter} from "next/router";
+import {useSelector} from "react-redux";
+import {RootState} from "../../store/store";
 
-interface PostContentProps{
+interface PostContentProps {
     item: IPost;
 }
 
 export const PostContent = ({item}: PostContentProps) => {
+    const {id, title, images, posts_content, owner, created_at} = item;
+    const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
+    const [likePost, {isLoading}] = useLikePostMutation();
+    const router = useRouter();
+    const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+    const { data: interaction } = useGetUserPostInteractionQuery(id, { skip: !id || !isAuth });
 
-    const {title, images, posts_content, owner, created_at} = item;
+    const liked = interaction?.liked ?? false;
+
     const text = posts_content[0]?.text ?? "";
 
+    const authorName = owner ? `${owner.first_name} ${owner.last_name}` : 'Unknown author';
+    const authorInitial = owner?.first_name?.[0] ?? 'R';
+    const createdDate = created_at
+        ? new Date(created_at).toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'})
+        : '';
+
+    const readMinutes = Math.max(1, Math.round(text.replace(/<[^>]*>/g, ' ').split(/\s+/).filter(Boolean).length / 200));
+
+    const handleLikePost = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        likePost({ id, isLiked: !liked });
+    }
     return (
         <Card className={styles.postContent}>
-            {images && <CardMedia component="img" image={images.url} alt={title}/>}
+            {/* TODO: real topic from the post */}
+            <span className={styles.topic}>Topic</span>
+
+            <Typography variant="h3" component="h1" className={styles.title}>
+                {title}
+            </Typography>
+
+            <div className={styles.authorRow}>
+                <Avatar className={styles.avatar}>{authorInitial}</Avatar>
+                <div className={styles.authorMeta}>
+                    <div className={styles.authorName}>{authorName}</div>
+                    <div className={styles.date}>{createdDate} · {readMinutes} min read</div>
+                </div>
+            </div>
+
+            <div className={styles.actions}>
+                {/* TODO: like, comments */}
+                <span className={styles.actionItem}>
+                    <IconButton onClick={handleLikePost} disabled={isLoading} size="small" aria-label="Like">
+                            {liked
+                                ? <FavoriteIcon fontSize="small" color="error"/>
+                                : <FavoriteBorderIcon fontSize="small" />}
+                        </IconButton>
+                        <span>{postStat?.likes_count ?? 0}</span>
+                </span>
+                <span className={styles.actionItem}>
+                    <IconButton size="small" aria-label="Comments">
+                        <ChatBubbleOutlineIcon fontSize="small"/>
+                    </IconButton>
+                    <span>0</span>
+                </span>
+                <IconButton size="small" aria-label="Save">
+                    <BookmarkBorderIcon fontSize="small"/>
+                </IconButton>
+                <span className={styles.actionsSpacer}/>
+                <IconButton size="small" aria-label="Share">
+                    <IosShareIcon fontSize="small"/>
+                </IconButton>
+                <IconButton size="small" aria-label="More">
+                    <MoreHorizIcon fontSize="small"/>
+                </IconButton>
+            </div>
+
+            {images && (
+                <img className={styles.image} src={images.url} alt={title}/>
+            )}
+
             <div className={styles.cardMainContent}>
                 <CardContent>
-                    <Typography variant="h4" component="h1" gutterBottom>
-                        {title}
-                    </Typography>
                     <div dangerouslySetInnerHTML={{ __html: text }}></div>
                 </CardContent>
             </div>

@@ -1,16 +1,98 @@
 .postContent {
-  border-radius: 8px;
+  border-radius: 16px;
   display: flex;
   flex-flow: column;
-  justify-content: center;
-  padding: 20px;
+  padding: 24px 40px;
   margin-bottom: 28px;
   background-color: white;
   max-width: 100%;
-  box-shadow: none;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03), 0 8px 24px rgba(17, 24, 39, 0.04);
 
   img {
     max-width: 100%;
     height: auto;
   }
+}
+
+.topic {
+  align-self: flex-start;
+  margin-bottom: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e4edf9;
+  font-size: 12px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.title {
+  margin: 0 0 20px !important;
+  font-size: 36px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+  color: #111827;
+}
+
+.authorRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 40px !important;
+  height: 40px !important;
+  background: #f05a76 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+.authorMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.authorName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.2;
+}
+
+.date {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 8px 0;
+  margin-bottom: 24px;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.actionsSpacer {
+  flex: 1;
+}
+
+.actionItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  margin-bottom: 24px;
+  border-radius: 14px;
+  background: #f3f4f6;
 }

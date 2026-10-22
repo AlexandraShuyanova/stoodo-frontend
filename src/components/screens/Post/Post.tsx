@@ -15,7 +15,7 @@ export const Post = () => {
         });
 
     return(
-        <section>
+        <section className={styles.section}>
             <div className={styles.container}>
                 {data !== undefined ?
                     <PostContent

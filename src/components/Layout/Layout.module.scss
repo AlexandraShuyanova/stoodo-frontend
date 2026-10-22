@@ -43,13 +43,14 @@
   position: sticky;
   top: 84px;
   padding-top: 16px;
-  border-left: 1px solid var(--border-color);
   height: calc(100vh - 60px);
 }
 
 .topics {
-  background: transparent;
+  background: #fff;
   border: none;
+  border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03), 0 8px 24px rgba(17, 24, 39, 0.04);
   padding: 20px;
 }
 

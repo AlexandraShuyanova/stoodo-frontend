@@ -21,12 +21,9 @@ interface PostItemProps {
 export const PostItem = ({ item } : PostItemProps) => {
     const { id, title, slug, images, owner, posts_content, created_at } = item;
     const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
-    const [likePost, {isLoading}] = useLikePostMutation();
     const router = useRouter();
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
     const { data: interaction } = useGetUserPostInteractionQuery(id, { skip: !id || !isAuth });
-
-    const liked = interaction?.liked ?? false;
 
     const content = posts_content?.find((post) => post.is_current_version) ?? posts_content?.[0];
     const excerpt = content?.text
@@ -35,11 +32,6 @@ export const PostItem = ({ item } : PostItemProps) => {
 
     const authorName = owner ? `${owner.first_name} ${owner.last_name}` : 'Unknown author';
     const authorInitial = owner?.first_name?.[0] ?? 'R';
-
-    const handleLikePost = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.stopPropagation();
-        likePost({ id, isLiked: !liked });
-    }
 
     const handleOpenPost = () => {
         router.push(`/posts/${slug}`);
@@ -97,10 +89,8 @@ export const PostItem = ({ item } : PostItemProps) => {
             <div className={styles.footer}>
                 <div className={styles.stats}>
                     <span className={styles.statItem}>
-                        <IconButton onClick={handleLikePost} disabled={isLoading} size="small" aria-label="Like">
-                            {liked
-                                ? <FavoriteIcon fontSize="small" color="error"/>
-                                : <FavoriteBorderIcon fontSize="small" />}
+                        <IconButton size="small" aria-label="Like">
+                            <FavoriteBorderIcon fontSize="small" />
                         </IconButton>
                         <span>{postStat?.likes_count ?? 0}</span>
                     </span>
