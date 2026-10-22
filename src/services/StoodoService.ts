@@ -33,6 +33,7 @@ export interface CreatePostRequest {
 export const stoodoAPI = createApi({
     reducerPath: 'stoodoAPI',
     baseQuery: authFetchBase,
+    tagTypes: ['Posts', 'Like'],
     extractRehydrationInfo(action, { reducerPath }) {
         if (action.type === HYDRATE) {
             return action.payload[reducerPath]
@@ -50,13 +51,15 @@ export const stoodoAPI = createApi({
             query: page => `post/list_not_published?page=${page}&size=10`
         }),
         getUserPostInteraction: build.query<UserPostInteraction, string> ({
-            query: id => `post/user_interaction_by_post/${id}`
+            query: id => `post/user_interaction_by_post/${id}`,
+            providesTags: (result, error, id) => [{type: 'Like', id}],
         }),
         getPostContentById: build.query<PostContentResponse, string>({
             query: id=>`post/get_content_by_post_id/${id}`
         }),
         getPostStatById: build.query<PostStat, string>({
-            query: id=>`post/post_stat/${id}`
+            query: id=>`post/post_stat/${id}`,
+            providesTags: (result, error, id) => [{type: 'Like', id}],
         }),
         getPostBySlug: build.query<IPost, string | string[] | undefined>({
             query: slug => `post/post_by_slug/${slug}`
@@ -97,7 +100,8 @@ export const stoodoAPI = createApi({
             query: ({id, isLiked}) => ({
                 url: `post/like_post/${id}?isLiked=${isLiked}`,
                 method: 'POST',
-            })
+            }),
+            invalidatesTags: (result, error, {id}) => [{type: 'Like', id}],
         }),
         protected: build.mutation<{ message: string }, void>({
             query: () => 'protected',
@@ -111,7 +115,6 @@ export const { useGetPostsQuery, useGetListNotPublishedQuery,
     useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
     useProtectedMutation, useCreatePostMutation,
     useUploadImageMutation, useLikePostMutation,  useGetAuthUserQuery,
-    useGetPostContentBySlugQuery,
     util: { getRunningQueriesThunk }} = stoodoAPI;
 
 //export for SSR

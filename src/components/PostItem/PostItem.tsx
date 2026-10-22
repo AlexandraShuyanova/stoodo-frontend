@@ -3,22 +3,30 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import styles from './PostItem.module.scss';
 import { IPost } from "@/types/IPost";
 import { FC } from "react";
-import { useGetPostStatByIdQuery } from "../../services/StoodoService";
+import { useSelector } from "react-redux";
+import { useGetPostStatByIdQuery, useLikePostMutation, useGetUserPostInteractionQuery} from "../../services/StoodoService";
 import { useRouter } from "next/router";
+import { RootState } from "../../store/store";
 
 interface PostItemProps {
     item: IPost;
 }
 
-export const PostItem: FC<PostItemProps> = ({ item }) => {
+export const PostItem = ({ item } : PostItemProps) => {
     const { id, title, slug, images, owner, posts_content, created_at } = item;
     const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
+    const [likePost, {isLoading}] = useLikePostMutation();
     const router = useRouter();
+    const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+    const { data: interaction } = useGetUserPostInteractionQuery(id, { skip: !id || !isAuth });
+
+    const liked = interaction?.liked ?? false;
 
     const content = posts_content?.find((post) => post.is_current_version) ?? posts_content?.[0];
     const excerpt = content?.text
@@ -27,6 +35,11 @@ export const PostItem: FC<PostItemProps> = ({ item }) => {
 
     const authorName = owner ? `${owner.first_name} ${owner.last_name}` : 'Unknown author';
     const authorInitial = owner?.first_name?.[0] ?? 'R';
+
+    const handleLikePost = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        likePost({ id, isLiked: !liked });
+    }
 
     const handleOpenPost = () => {
         router.push(`/posts/${slug}`);
@@ -84,7 +97,11 @@ export const PostItem: FC<PostItemProps> = ({ item }) => {
             <div className={styles.footer}>
                 <div className={styles.stats}>
                     <span className={styles.statItem}>
-                        <FavoriteBorderIcon fontSize="small" />
+                        <IconButton onClick={handleLikePost} disabled={isLoading} size="small" aria-label="Like">
+                            {liked
+                                ? <FavoriteIcon fontSize="small" color="error"/>
+                                : <FavoriteBorderIcon fontSize="small" />}
+                        </IconButton>
                         <span>{postStat?.likes_count ?? 0}</span>
                     </span>
                     <span className={styles.statItem}>
