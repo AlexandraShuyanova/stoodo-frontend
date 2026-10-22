@@ -3,6 +3,7 @@ export interface IPost {
     id: string;
     title: string;
     slug: string;
+    topic: ITopic | null;
 
     image_id: string | null;
     owner_id: string | null;

@@ -20,13 +20,14 @@ import {
 import {useRouter} from "next/router";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
+import {useState} from "react";
 
 interface PostContentProps {
     item: IPost;
 }
 
 export const PostContent = ({item}: PostContentProps) => {
-    const {id, title, images, posts_content, owner, created_at} = item;
+    const {id, title, images, posts_content, owner, created_at, topic} = item;
     const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
     const [likePost, {isLoading}] = useLikePostMutation();
     const router = useRouter();
@@ -51,8 +52,7 @@ export const PostContent = ({item}: PostContentProps) => {
     }
     return (
         <Card className={styles.postContent}>
-            {/* TODO: real topic from the post */}
-            <span className={styles.topic}>Topic</span>
+            {topic?.topic && <span className={styles.topic}>{topic.topic}</span>}
 
             <Typography variant="h3" component="h1" className={styles.title}>
                 {title}

@@ -29,6 +29,7 @@ export const PostForm = ({onSuccess}: PostFormProps) => {
     const [formState, setFormState] = React.useState<CreatePostRequest>({
         title: '',
         image: '',
+        topicId: '',
         content: ''
     })
 
@@ -52,6 +53,7 @@ export const PostForm = ({onSuccess}: PostFormProps) => {
 
     const handleSelectTopic = (topicId: string) => {
         setSelectedTopic(topicId);
+        setFormState((prev) => ({ ...prev, topicId: topicId }));
     };
 
     const handleCreatePost = async (e: React.FormEvent<HTMLFormElement>) => {

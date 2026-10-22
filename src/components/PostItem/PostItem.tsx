@@ -8,11 +8,12 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import styles from './PostItem.module.scss';
 import { IPost } from "@/types/IPost";
-import { FC } from "react";
+import {FC, useState} from "react";
 import { useSelector } from "react-redux";
 import { useGetPostStatByIdQuery, useLikePostMutation, useGetUserPostInteractionQuery} from "../../services/StoodoService";
 import { useRouter } from "next/router";
 import { RootState } from "../../store/store";
+import {Button} from "@/components/UI/Button/Button";
 
 interface PostItemProps {
     item: IPost;
@@ -24,6 +25,7 @@ export const PostItem = ({ item } : PostItemProps) => {
     const router = useRouter();
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
     const { data: interaction } = useGetUserPostInteractionQuery(id, { skip: !id || !isAuth });
+    const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
 
     const content = posts_content?.find((post) => post.is_current_version) ?? posts_content?.[0];
     const excerpt = content?.text
@@ -70,7 +72,8 @@ export const PostItem = ({ item } : PostItemProps) => {
                     </div>
                 </div>
 
-                <IconButton className={styles.moreBtn} aria-label="Post actions" onClick={handleMenuClick}>
+                <IconButton className={styles.moreBtn} aria-label="Post actions"
+                            onClick={() => setIsPostMenuOpen(prev => !prev)}>
                     <MoreVertIcon />
                 </IconButton>
             </div>
