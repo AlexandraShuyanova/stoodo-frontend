@@ -1,5 +1,6 @@
 import {NextPage} from "next";
 import {useRouter} from "next/router";
+import {skipToken} from "@reduxjs/toolkit/query";
 import {Layout} from "@/components/Layout/Layout";
 import {useGetPostBySlugQuery, getPostBySlug, getRunningQueriesThunk} from "../../services/StoodoService";
 import {Post} from "@/components/screens/Post/Post";
@@ -17,7 +18,7 @@ const PostPage: NextPage = () => {
                 <meta name="description" content={text.slice(0, 160)} />
                 <meta property="og:title" content={post?.title ?? ""} />
             </Head>
-            <Layout>
+            <Layout hideRightSidebar>
                 <Post/>
             </Layout>
         </>

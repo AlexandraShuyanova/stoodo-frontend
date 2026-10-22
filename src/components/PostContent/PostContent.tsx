@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import styles from './PostContent.module.scss';
@@ -83,7 +83,7 @@ export const PostContent = ({item}: PostContentProps) => {
                     <span>0</span>
                 </span>
                 <IconButton size="small" aria-label="Save">
-                    <BookmarkBorderIcon fontSize="small"/>
+                    <BookmarkAddOutlinedIcon fontSize="small"/>
                 </IconButton>
                 <span className={styles.actionsSpacer}/>
                 <IconButton size="small" aria-label="Share">

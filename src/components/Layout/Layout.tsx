@@ -7,16 +7,18 @@ import {ModalWindow} from "@/components/UI/ModalWindow/ModalWindow";
 import {AuthForm} from "@/components/Header/components/AuthForm/AuthForm";
 import {PostForm} from "@/components/Header/components/PostForm/PostForm";
 import {RegisterForm} from "@/components/Header/components/RegisterForm/RegisterForm";
-import {useGetTopicsQuery} from "../../services/StoodoService";
+import {TopicsSidebar} from "@/components/TopicsSidebar/TopicsSidebar";
 
+interface LayoutProps {
+    hideRightSidebar?: boolean;
+}
 
-export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
+export const Layout: FC<PropsWithChildren<LayoutProps>> = ({children, hideRightSidebar = true}) => {
 
     const[loginModal, setLoginModal] = useState(false)
     const[createPostModal, setCreatePostModal] = useState(false)
     const[isLeftBarVisible, setLeftBarVisibility] = useState(true)
     const [mode, setMode] = useState<"login" | "register">("login");
-    const {data, isFetching} = useGetTopicsQuery();
     const updateLoginModal = (value:boolean) =>
     {
         setLoginModal(value);
@@ -49,29 +51,7 @@ export const Layout: FC<PropsWithChildren<{}>> = ({children}) => {
                 <main className={styles.postList}>
                     {children}
                 </main>
-                <div className={styles.rightSideBar}>
-                    <div className={styles.topics}>
-                        <div className={styles.topicsHeader}>
-                            <div className={styles.topicTitle}>Topics</div>
-
-                            <button className={styles.viewAll}>
-                                View all
-                            </button>
-                        </div>
-
-                        <div className={styles.topicsGrid}>
-                            {data?.map((topic) => (
-                                <button
-                                    key={topic.id}
-                                    className={styles.topic}
-                                    style={{ backgroundColor: topic.color }}
-                                >
-                                    {topic.topic}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                {!hideRightSidebar && <TopicsSidebar/>}
             </div>
             <Footer />
         </div>

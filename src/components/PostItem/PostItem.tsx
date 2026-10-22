@@ -5,7 +5,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 import styles from './PostItem.module.scss';
 import { IPost } from "@/types/IPost";
 import {FC, useState} from "react";
@@ -92,9 +92,7 @@ export const PostItem = ({ item } : PostItemProps) => {
             <div className={styles.footer}>
                 <div className={styles.stats}>
                     <span className={styles.statItem}>
-                        <IconButton size="small" aria-label="Like">
-                            <FavoriteBorderIcon fontSize="small" />
-                        </IconButton>
+                        <FavoriteBorderIcon fontSize="small" />
                         <span>{postStat?.likes_count ?? 0}</span>
                     </span>
                     <span className={styles.statItem}>
@@ -102,7 +100,7 @@ export const PostItem = ({ item } : PostItemProps) => {
                         <span>{postStat?.opened_count ?? 0}</span>
                     </span>
                     <span className={styles.statItem}>
-                        <BookmarkBorderIcon fontSize="small" />
+                        <BookmarkAddOutlinedIcon fontSize="small" />
                     </span>
                 </div>
 

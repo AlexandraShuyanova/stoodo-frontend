@@ -1,0 +1,63 @@
+.rightSideBar {
+  width: 320px;
+  flex: 0 0 320px;
+  position: sticky;
+  top: 84px;
+  padding-top: 16px;
+  height: calc(100vh - 60px);
+}
+
+.topics {
+  background: #fff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03), 0 8px 24px rgba(17, 24, 39, 0.04);
+  padding: 20px;
+}
+
+.topicsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.topicTitle {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.viewAll {
+  border: none;
+  background: none;
+  padding: 0;
+  color: #d9556d;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.topicsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.topic {
+  border: none;
+  border-radius: 8px;
+  padding: 14px 12px;
+  min-width: 0;
+
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  color: #303030;
+
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.topic:hover {
+  transform: translateY(-1px);
+}
