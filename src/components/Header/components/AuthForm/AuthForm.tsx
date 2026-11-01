@@ -25,9 +25,19 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
         saveSession: false,
     })
 
+    const [error, setError] = React.useState<string | null>(null);
+
+    const [fieldErrors, setFieldErrors] = React.useState({
+        email: false,
+        password: false,
+    });
+
     const handleChange = ({
                               target: {name, value, checked = false},
                           }: React.ChangeEvent<HTMLInputElement>) => {
+        setError(null);
+        setFieldErrors({...fieldErrors, [name]: false});
+
         if (name == "saveSession")
             setFormState((prev) => ({...prev, [name]: checked}))
         else
@@ -41,14 +51,24 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
             return
         }
 
+        if (!formState.email || !formState.password) {
+            setFieldErrors({
+                email: !formState.email,
+                password: !formState.password,
+            });
+            setError("All fields are required");
+            return;
+        }
+
         try {
             const user = await login(formState).unwrap()
             console.log(user);
             dispatch(setCredentials(user))
             onSuccess();
 
-        } catch (err) {
-            dispatch(setCredentials({access_token: null}))
+        } catch (err: any) {
+            setError(err?.data?.error || "Something went wrong");
+            dispatch(setCredentials({access_token: null}));
         }
     }
 
@@ -64,6 +84,7 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
                     name="email"
                     onChange={handleChange}
                     type="email"
+                    error={fieldErrors.email}
                     placeholder="Enter email"
                 />
                 <TextField
@@ -71,9 +92,15 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
                     name="password"
                     onChange={handleChange}
                     type="password"
+                    error={fieldErrors.password}
                     placeholder="Enter password"
                 />
             </div>
+            {error && (
+                <p role="alert" className={styles.error}>
+                    {error}
+                </p>
+            )}
             <div className={styles.checkbox}>
                 <input
                     type="checkbox"

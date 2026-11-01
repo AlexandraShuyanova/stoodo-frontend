@@ -19,6 +19,12 @@
   flex-direction: row;
 }
 
+.label.error,
+.labelPassword.error {
+  border-color: #D93655;
+  box-shadow: 0 0 0 2px rgba(224, 90, 104, 0.12);
+}
+
 .caption {
   margin-bottom: 7px;
   font-weight: 500;
@@ -29,3 +35,5 @@
 .passwordInput {
   width: 163px;
 }
+
+

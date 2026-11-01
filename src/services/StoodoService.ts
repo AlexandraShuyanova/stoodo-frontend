@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { HYDRATE } from 'next-redux-wrapper'
 import {IPosts} from "@/types/IPosts"
 import authFetchBase from "./authFetchBase";
-import {IPost, IImage, ITopic, UserPostInteraction, PostContentResponse, PostStat} from "@/types/IPost";
+import {IPost, IImage, ITopic, UserPostInteraction, PostStat} from "@/types/IPost";
 import {IUser} from "@/types/IUser";
 
 export interface UserResponse {
@@ -27,7 +27,8 @@ export interface RegisterRequest {
 export interface CreatePostRequest {
     title: string,
     image: string,
-    content: string
+    content: string,
+    topicId: string
 }
 
 export const stoodoAPI = createApi({
@@ -54,9 +55,9 @@ export const stoodoAPI = createApi({
             query: id => `post/user_interaction_by_post/${id}`,
             providesTags: (result, error, id) => [{type: 'Like', id}],
         }),
-        getPostContentById: build.query<PostContentResponse, string>({
+        /*getPostContentById: build.query<PostContentResponse, string>({
             query: id=>`post/get_content_by_post_id/${id}`
-        }),
+        }),*/
         getPostStatById: build.query<PostStat, string>({
             query: id=>`post/post_stat/${id}`,
             providesTags: (result, error, id) => [{type: 'Like', id}],
@@ -111,8 +112,7 @@ export const stoodoAPI = createApi({
 
 export const { useGetPostsQuery, useGetListNotPublishedQuery,
     useGetUserPostInteractionQuery, useGetTopicsQuery,
-    useGetPostContentByIdQuery, useGetPostStatByIdQuery,
-    useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
+    useGetPostStatByIdQuery, useGetPostBySlugQuery, useLoginMutation, useRegisterMutation,
     useProtectedMutation, useCreatePostMutation,
     useUploadImageMutation, useLikePostMutation,  useGetAuthUserQuery,
     util: { getRunningQueriesThunk }} = stoodoAPI;

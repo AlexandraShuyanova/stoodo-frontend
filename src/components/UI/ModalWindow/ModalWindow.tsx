@@ -28,7 +28,7 @@ export const ModalWindow: FC<ModalWindowProps> = ({children, visible,
                 </IconButton>
                 {children}
             </div>
-            <div className={styles.darkScreen} onClick={() => setVisible(false)} />
+            <div className={styles.darkScreen} />
         </div>
     )
 }

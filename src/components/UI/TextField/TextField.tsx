@@ -10,12 +10,13 @@ interface TextFieldProps {
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void,
     name?: string,
     type?: string,
+    error?: boolean,
     label?: string,
     placeholder?: string,
 }
 
 export const TextField: FC<TextFieldProps> = ({className, label,
-                                                  type, ...props}) => {
+                                                  type, error, ...props}) => {
     const [isPasswordVisible, setPasswordVisible] = useState(false);
 
     const handleClickShowPassword = () => setPasswordVisible((show) => !show);
@@ -25,13 +26,20 @@ export const TextField: FC<TextFieldProps> = ({className, label,
     };
 
     return (
-        <label className={classNames(type === 'password' ? styles.labelPassword : styles.label, className)}>
+        <label className={classNames(
+            type === 'password' ? styles.labelPassword : styles.label,
+            error && styles.error,
+            className)}
+        >
             {label && <span className={styles.caption}>{label}</span>}
             <input
-                className={type === 'password' ? classNames(styles.passwordInput, styles.textField) : styles.textField}
+                className={classNames(
+                    styles.textField,
+                    type === 'password' && styles.passwordInput,
+                )}
                 type={type === 'password' ? (isPasswordVisible ? 'text' : type) : type}
-                {...props}>
-            </input>
+                {...props}
+            />
             {type === 'password' &&
                 <IconButton
                     className={styles.eyeIconButton}
