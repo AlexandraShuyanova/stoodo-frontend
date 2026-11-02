@@ -32,6 +32,5 @@ const slice = createSlice({
 })
 
 export const { setCredentials } = slice.actions
-
 export default slice.reducer
 

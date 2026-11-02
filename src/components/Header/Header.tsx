@@ -5,7 +5,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import AddIcon from '@mui/icons-material/Add';
 import Link from 'next/link';
 import {Search} from "./components/Search/Search";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import {Button} from "@/components/UI/Button/Button";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
@@ -22,13 +22,21 @@ interface HeaderProps
     onModeChange: (mode: "login" | "register") => void;
 }
 export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar, onModeChange}: HeaderProps) => {
-    const isAuth = useSelector((state: RootState) => state.auth.isAuth);
+    const isAuth = useSelector(
+        (state: RootState) => state.auth.isAuth
+    );
     const { data: authUser } = useGetAuthUserQuery('', {
         skip: !isAuth,
         refetchOnMountOrArgChange: true,
     });
+
+    const search = useSelector(
+        (state: RootState) => state.search.search
+    );
+
     const[leftSideBar, setLeftSideBar] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const dispatch = useDispatch();
 
     const handleLogout = () => {

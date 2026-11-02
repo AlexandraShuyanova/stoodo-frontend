@@ -1,6 +1,7 @@
 import {configureStore} from "@reduxjs/toolkit";
 import {stoodoAPI} from "../services/StoodoService";
 import authReducer from "./authSlice"
+import searchReducer from './searchSlice';
 import {createWrapper} from "next-redux-wrapper";
 
 export const makeStore = () => {
@@ -8,6 +9,7 @@ export const makeStore = () => {
         reducer: {
             [stoodoAPI.reducerPath]: stoodoAPI.reducer,
             auth: authReducer,
+            search: searchReducer,
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat(stoodoAPI.middleware),

@@ -31,6 +31,11 @@ export interface CreatePostRequest {
     topicId: string
 }
 
+export interface GetPostsParams {
+    /*page: number;*/
+    search?: string;
+}
+
 export const stoodoAPI = createApi({
     reducerPath: 'stoodoAPI',
     baseQuery: authFetchBase,
@@ -41,8 +46,13 @@ export const stoodoAPI = createApi({
         }
     },
     endpoints: (build) => ({
-        getPosts: build.query<IPosts, void>({
-            query: () => `post/posts`,
+        getPosts: build.query<IPosts, GetPostsParams>({
+            query: ({ search }) => ({
+                url: 'post/posts',
+                params: search?.trim()
+                    ? { search: search?.trim() }
+                    : {},
+            }),
             providesTags: ['Posts'],
         }),
         getTopics: build.query<ITopic[], void>({
