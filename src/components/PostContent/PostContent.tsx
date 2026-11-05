@@ -17,10 +17,9 @@ import {
     useGetUserPostInteractionQuery,
     useLikePostMutation
 } from "../../services/StoodoService";
-import {useRouter} from "next/router";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/store";
-import {useState} from "react";
+import {openAuthModal} from "../../store/authModalSlice"
 
 interface PostContentProps {
     item: IPost;
@@ -30,12 +29,13 @@ export const PostContent = ({item}: PostContentProps) => {
     const {id, title, images, posts_content, owner, created_at, topic} = item;
     const { data: postStat } = useGetPostStatByIdQuery(id, { skip: !id });
     const [likePost, {isLoading}] = useLikePostMutation();
-    const router = useRouter();
+
     const isAuth = useSelector((state: RootState) => state.auth.isAuth);
     const { data: interaction } = useGetUserPostInteractionQuery(id, { skip: !id || !isAuth });
 
-    const liked = interaction?.liked ?? false;
+    const dispatch = useDispatch();
 
+    const liked = interaction?.liked ?? false;
     const text = posts_content[0]?.text ?? "";
 
     const authorName = owner ? `${owner.first_name} ${owner.last_name}` : 'Unknown author';
@@ -48,8 +48,31 @@ export const PostContent = ({item}: PostContentProps) => {
 
     const handleLikePost = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.stopPropagation();
-        likePost({ id, isLiked: !liked });
+        if (isAuth) {
+            likePost({ id, isLiked: !liked });
+        } else {
+            dispatch(openAuthModal({mode: 'login'}))
+        }
     }
+
+    const handleCommentPost = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (isAuth) {
+
+        } else {
+            dispatch(openAuthModal({mode: 'login'}))
+        }
+    }
+
+    const handleSavePost = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation();
+        if (isAuth) {
+
+        } else {
+            dispatch(openAuthModal({mode: 'login'}))
+        }
+    }
+
     return (
         <Card className={styles.postContent}>
             {topic?.topic && <span className={styles.topic}>{topic.topic}</span>}
@@ -67,7 +90,7 @@ export const PostContent = ({item}: PostContentProps) => {
             </div>
 
             <div className={styles.actions}>
-                {/* TODO: like, comments */}
+                {/* TODO: comments */}
                 <span className={styles.actionItem}>
                     <IconButton onClick={handleLikePost} disabled={isLoading} size="small" aria-label="Like">
                             {liked
@@ -77,12 +100,12 @@ export const PostContent = ({item}: PostContentProps) => {
                         <span>{postStat?.likes_count ?? 0}</span>
                 </span>
                 <span className={styles.actionItem}>
-                    <IconButton size="small" aria-label="Comments">
+                    <IconButton onClick={handleCommentPost} size="small" aria-label="Comments" disabled={isLoading}>
                         <ChatBubbleOutlineIcon fontSize="small"/>
                     </IconButton>
                     <span>0</span>
                 </span>
-                <IconButton size="small" aria-label="Save">
+                <IconButton onClick={handleSavePost} size="small" aria-label="Save">
                     <BookmarkAddOutlinedIcon fontSize="small"/>
                 </IconButton>
                 <span className={styles.actionsSpacer}/>

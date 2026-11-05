@@ -16,12 +16,12 @@ import {IconButton} from "@/components/UI/IconButton/IconButton";
 
 interface HeaderProps
 {
-    updateLoginModal:(value: boolean) => void,
+    openLoginModal:(value: boolean) => void,
     updateCreatePostModal:(value: boolean) => void,
     updateLeftSideBar:(value: boolean) => void,
     onModeChange: (mode: "login" | "register") => void;
 }
-export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideBar, onModeChange}: HeaderProps) => {
+export const Header = ({openLoginModal, updateCreatePostModal, updateLeftSideBar, onModeChange}: HeaderProps) => {
     const isAuth = useSelector(
         (state: RootState) => state.auth.isAuth
     );
@@ -45,7 +45,7 @@ export const Header = ({updateLoginModal, updateCreatePostModal, updateLeftSideB
     };
 
     const onAuthClicked = (mode: "login" | "register") => {
-        updateLoginModal(true);
+        openLoginModal(true);
         onModeChange(mode);
     }
 

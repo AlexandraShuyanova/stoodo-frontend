@@ -62,7 +62,6 @@ export const AuthForm = ({ onModeChange, onSuccess }: AuthFormProps) => {
 
         try {
             const user = await login(formState).unwrap()
-            console.log(user);
             dispatch(setCredentials(user))
             onSuccess();
 

@@ -2,18 +2,15 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import styles from './PostItem.module.scss';
 import { IPost } from "@/types/IPost";
 import {FC, useState} from "react";
 import { useSelector } from "react-redux";
-import { useGetPostStatByIdQuery, useLikePostMutation, useGetUserPostInteractionQuery} from "../../services/StoodoService";
+import { useGetPostStatByIdQuery, useGetUserPostInteractionQuery} from "../../services/StoodoService";
 import { useRouter } from "next/router";
 import { RootState } from "../../store/store";
-import {Button} from "@/components/UI/Button/Button";
 
 interface PostItemProps {
     item: IPost;
@@ -91,16 +88,13 @@ export const PostItem = ({ item } : PostItemProps) => {
 
             <div className={styles.footer}>
                 <div className={styles.stats}>
-                    <span className={styles.statItem}>
-                        <FavoriteBorderIcon fontSize="small" />
+                    <span className={styles.statItem} title="Likes">
+                        <FavoriteIcon />
                         <span>{postStat?.likes_count ?? 0}</span>
                     </span>
-                    <span className={styles.statItem}>
-                        <ChatBubbleOutlineIcon fontSize="small" />
-                        <span>{postStat?.opened_count ?? 0}</span>
-                    </span>
-                    <span className={styles.statItem}>
-                        <BookmarkAddOutlinedIcon fontSize="small" />
+                    <span className={styles.statItem} title="Comments">
+                        <ChatBubbleIcon />
+                        <span>0</span>
                     </span>
                 </div>
 

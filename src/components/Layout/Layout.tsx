@@ -8,16 +8,25 @@ import {AuthForm} from "@/components/Header/components/AuthForm/AuthForm";
 import {PostForm} from "@/components/Header/components/PostForm/PostForm";
 import {RegisterForm} from "@/components/Header/components/RegisterForm/RegisterForm";
 import {TopicsSidebar} from "@/components/TopicsSidebar/TopicsSidebar";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {closeAuthModal, openAuthModal, setAuthMode} from "../../store/authModalSlice";
 
 interface LayoutProps {
+    children: React.ReactNode;
     hideRightSidebar?: boolean;
 }
 
-export const Layout: FC<PropsWithChildren<LayoutProps>> = ({children, hideRightSidebar = true}) => {
+export const Layout = ({children, hideRightSidebar = true} : LayoutProps) => {
 
     const[loginModal, setLoginModal] = useState(false)
     const[createPostModal, setCreatePostModal] = useState(false)
     const[isLeftBarVisible, setLeftBarVisibility] = useState(true)
+    const modal = useSelector(
+        (state: RootState) => state.modal.authModal
+    );
+
+    const dispatch = useDispatch();
     const [mode, setMode] = useState<"login" | "register">("login");
     const updateLoginModal = (value:boolean) =>
     {
@@ -34,18 +43,18 @@ export const Layout: FC<PropsWithChildren<LayoutProps>> = ({children, hideRightS
 
     return (
         <div className={styles.container}>
-            <ModalWindow className={styles.loginModal} visible={loginModal} setVisible={setLoginModal}>
-                {mode === "login"
+            <ModalWindow className={styles.loginModal} visible={modal.open} setVisible={(e) => dispatch(closeAuthModal())}>
+                {modal.mode === "login"
                     ?
-                    <AuthForm onModeChange={setMode} onSuccess={() => setLoginModal(false)} />
+                    <AuthForm onModeChange={(mode) =>dispatch(setAuthMode(mode))} onSuccess={() => dispatch(closeAuthModal())} />
                     :
-                    <RegisterForm onModeChange={setMode} onSuccess={() => setLoginModal(false)}/>
+                    <RegisterForm onModeChange={(mode) => dispatch(setAuthMode(mode))} onSuccess={() => dispatch(closeAuthModal())}/>
                 }
             </ModalWindow>
             <ModalWindow className={styles.createPostModal} visible={createPostModal} setVisible={setCreatePostModal}>
                 <PostForm onSuccess={() => setCreatePostModal(false)}/>
             </ModalWindow>
-            <Header updateLoginModal={updateLoginModal} onModeChange={setMode} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>
+            <Header openLoginModal={() => dispatch(openAuthModal({mode: modal.mode}))} onModeChange={(mode) => dispatch(setAuthMode(mode))} updateCreatePostModal={updateCreatePostModal} updateLeftSideBar={updateLeftSideBar}/>
             <div className={styles.main}>
                 <SideBar className={styles.leftSideBar} visible={isLeftBarVisible} setVisible={setLeftBarVisibility}/>
                 <main className={styles.postList}>

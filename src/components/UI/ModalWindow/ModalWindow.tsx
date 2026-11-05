@@ -10,8 +10,8 @@ interface ModalWindowProps{
     setVisible:(vis:boolean) => any;
     className: string;
 }
-export const ModalWindow: FC<ModalWindowProps> = ({children, visible,
-                                                      setVisible, className}) => {
+export const ModalWindow = ({children, visible,
+                                                      setVisible, className} : ModalWindowProps) => {
     if (!visible) {
         return null;
     }

@@ -109,16 +109,21 @@
 .stats {
   display: flex;
   align-items: center;
-  gap: 18px;
-  color: #6b7280;
+  gap: 20px;
+  color: #6b6b6b;
 }
 
 .statItem {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  gap: 5px;
+  font-size: 13px;
   line-height: 1;
+  cursor: inherit;
+
+  svg {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 1100px) {
